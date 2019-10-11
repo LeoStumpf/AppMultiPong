@@ -1,0 +1,160 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:2:1-36:12
+MERGED from [com.android.support:design:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\design-27.1.1.aar\8ea0e6ca8f225b91e4c2bd64b788948e\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:appcompat-v7:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\appcompat-v7-27.1.1.aar\11dd0960e6088a784e549009b8a0d83f\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\5c238b5beb3695df55180b1294d6f125\AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:support-v4:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\support-v4-27.1.1.aar\2ac5f6be9a2b0d8be5bc492f3163e649\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-fragment:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\support-fragment-27.1.1.aar\ac62a1958017961e698617c6dfa23f63\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:animated-vector-drawable:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-27.1.1.aar\10dd95f7f24a21f4d8ca0b78af5a8a8d\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:recyclerview-v7:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-27.1.1.aar\cccfb17acf0aa75727794358d4739374\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\support-core-ui-27.1.1.aar\6146299ab7ef3bf219da6428f2b6dbf6\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\support-core-utils-27.1.1.aar\78ed767566ca93fa2341dec4b9f81f40\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-27.1.1.aar\86f36dea38e024be7b8513f13325dd51\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:transition:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\transition-27.1.1.aar\5afe01521b1a591d08e96c9d9d38b36c\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-media-compat:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\support-media-compat-27.1.1.aar\15951c703404f9a6322aeef2b45e37c8\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\support-compat-27.1.1.aar\293da015f58da4acb58595176d49b385\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.0] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.0.aar\dec6ad0bc3c2e2266a1cbf058cd102e1\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.0] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.0.aar\4e699463b3741aa1c89093d380aad0af\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.1.0] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\ac0b18d64ba2a4c3c15104d83d81be8c\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.0] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\86cc34d14cc1ac34abff45534b6d6bc2\AndroidManifest.xml:17:1-22:12
+INJECTED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:2:1-36:12
+	package
+		ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:3:5-40
+		INJECTED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:2:1-36:12
+		INJECTED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml
+	android:versionCode
+		INJECTED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:2:1-36:12
+		INJECTED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:2:11-69
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:5:5-76
+	android:name
+		ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:5:22-73
+uses-permission#android.permission.CHANGE_WIFI_STATE
+ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:6:5-76
+	android:name
+		ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:6:22-73
+uses-permission#android.permission.CHANGE_NETWORK_STATE
+ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:7:5-79
+	android:name
+		ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:7:22-76
+uses-permission#android.permission.INTERNET
+ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:8:5-67
+	android:name
+		ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:8:22-64
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:9:5-79
+	android:name
+		ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:9:22-76
+uses-permission#android.permission.ACCESS_LOCATION_EXTRA_COMMANDS
+ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:10:5-89
+	android:name
+		ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:10:22-86
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:11:5-13:35
+	android:required
+		ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:13:9-32
+	android:name
+		ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:12:9-65
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:14:5-81
+	android:name
+		ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:14:22-78
+uses-feature#android.hardware.location.gps
+ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:17:5-66
+	android:name
+		ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:17:19-63
+application
+ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:19:5-34:19
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\5c238b5beb3695df55180b1294d6f125\AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\5c238b5beb3695df55180b1294d6f125\AndroidManifest.xml:9:5-20
+	android:supportsRtl
+		ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:24:9-35
+	android:label
+		ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:22:9-41
+	android:roundIcon
+		ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:23:9-54
+	android:icon
+		ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:21:9-43
+	android:allowBackup
+		ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:20:9-35
+	android:theme
+		ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:25:9-40
+activity#com.Project.App.Multipong.GameActivity
+ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:26:9-84
+	android:name
+		ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:26:19-72
+activity#com.Project.App.Multipong.MainActivity
+ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:27:9-33:20
+	android:name
+		ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:27:19-72
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:28:13-32:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:29:17-69
+	android:name
+		ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:29:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:31:17-77
+	android:name
+		ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml:31:27-74
+uses-sdk
+INJECTED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml
+MERGED from [com.android.support:design:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\design-27.1.1.aar\8ea0e6ca8f225b91e4c2bd64b788948e\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:design:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\design-27.1.1.aar\8ea0e6ca8f225b91e4c2bd64b788948e\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\appcompat-v7-27.1.1.aar\11dd0960e6088a784e549009b8a0d83f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\appcompat-v7-27.1.1.aar\11dd0960e6088a784e549009b8a0d83f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\5c238b5beb3695df55180b1294d6f125\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\5c238b5beb3695df55180b1294d6f125\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:support-v4:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\support-v4-27.1.1.aar\2ac5f6be9a2b0d8be5bc492f3163e649\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\support-v4-27.1.1.aar\2ac5f6be9a2b0d8be5bc492f3163e649\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\support-fragment-27.1.1.aar\ac62a1958017961e698617c6dfa23f63\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\support-fragment-27.1.1.aar\ac62a1958017961e698617c6dfa23f63\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-27.1.1.aar\10dd95f7f24a21f4d8ca0b78af5a8a8d\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-27.1.1.aar\10dd95f7f24a21f4d8ca0b78af5a8a8d\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-27.1.1.aar\cccfb17acf0aa75727794358d4739374\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-27.1.1.aar\cccfb17acf0aa75727794358d4739374\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\support-core-ui-27.1.1.aar\6146299ab7ef3bf219da6428f2b6dbf6\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\support-core-ui-27.1.1.aar\6146299ab7ef3bf219da6428f2b6dbf6\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\support-core-utils-27.1.1.aar\78ed767566ca93fa2341dec4b9f81f40\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\support-core-utils-27.1.1.aar\78ed767566ca93fa2341dec4b9f81f40\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-27.1.1.aar\86f36dea38e024be7b8513f13325dd51\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-27.1.1.aar\86f36dea38e024be7b8513f13325dd51\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\transition-27.1.1.aar\5afe01521b1a591d08e96c9d9d38b36c\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\transition-27.1.1.aar\5afe01521b1a591d08e96c9d9d38b36c\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\support-media-compat-27.1.1.aar\15951c703404f9a6322aeef2b45e37c8\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\support-media-compat-27.1.1.aar\15951c703404f9a6322aeef2b45e37c8\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\support-compat-27.1.1.aar\293da015f58da4acb58595176d49b385\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:27.1.1] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\support-compat-27.1.1.aar\293da015f58da4acb58595176d49b385\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.0] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.0.aar\dec6ad0bc3c2e2266a1cbf058cd102e1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.0] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.0.aar\dec6ad0bc3c2e2266a1cbf058cd102e1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.0] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.0.aar\4e699463b3741aa1c89093d380aad0af\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.0] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.0.aar\4e699463b3741aa1c89093d380aad0af\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.0] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\ac0b18d64ba2a4c3c15104d83d81be8c\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.0] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\ac0b18d64ba2a4c3c15104d83d81be8c\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.0] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\86cc34d14cc1ac34abff45534b6d6bc2\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.0] C:\Users\leoau\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\86cc34d14cc1ac34abff45534b6d6bc2\AndroidManifest.xml:20:5-44
+INJECTED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\leoau\Downloads\001 Code\MultiPong-master (1)\MultiPong-master\app\src\main\AndroidManifest.xml
