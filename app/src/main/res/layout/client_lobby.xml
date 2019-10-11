@@ -6,42 +6,134 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/Handy_Position"
-        android:layout_width="310dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:text="Place your phone at position"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/phon_position"
-        android:layout_width="53dp"
-        android:layout_height="53dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="99"
-        android:textSize="30sp"
-        app:layout_constraintStart_toEndOf="@+id/Handy_Position"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
-        android:id="@+id/Client_ready"
-        android:layout_width="263dp"
-        android:layout_height="254dp"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="184dp"
+        android:id="@+id/Lobby_BTN_Disonnect"
+        android:layout_width="175dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
         android:fontFamily="sans-serif-condensed-medium"
-        android:text="you Are Currently not Ready, press to be rady"
+        android:text="Leave Lobby"
         android:textSize="18sp"
         android:typeface="sans"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/Lobby_Textview_Title"
+        android:layout_width="405dp"
+        android:layout_height="54dp"
+        android:text="Multipong"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Handy_Position" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/Lobby_Scrollview_Players"
+        android:layout_width="409dp"
+        android:layout_height="366dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Lobby_Textview_Title"
+        app:layout_constraintVertical_bias="0.0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/Lobby_TextView_StartVelocity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="16dp"
+        android:text="Start Velocity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Lobby_Scrollview_Players" />
+
+    <Switch
+        android:id="@+id/Lobby_Switch_Ready"
+        android:layout_width="173dp"
+        android:layout_height="66dp"
+        android:layout_marginBottom="24dp"
+        android:text="Ready"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Lobby_BTN_Disonnect" />
+
+    <SeekBar
+        android:id="@+id/Lobby_SeekBar_StartVelocity"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="360dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="12dp"
+        android:max="10"
+        android:progress="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.431"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Lobby_TextView_StartVelocity" />
+
+    <SeekBar
+        android:id="@+id/Lobby_SeekBar_VelocityGain"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="356dp"
+        android:layout_height="25dp"
+        android:max="10"
+        android:progress="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.472"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lobby_TextView_VelocityGain" />
+
+    <TextView
+        android:id="@+id/lobby_TextView_EndPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="16dp"
+        android:text="End Points"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Lobby_SeekBar_VelocityGain" />
+
+    <TextView
+        android:id="@+id/lobby_TextView_VelocityGain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="Velocity Gain"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Lobby_SeekBar_StartVelocity" />
+
+    <SeekBar
+        android:id="@+id/Lobby_SeekBar_EndPoints"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="356dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="8dp"
+        android:max="10"
+        android:progress="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lobby_TextView_EndPoints" />
+
+    <ImageView
+        android:id="@+id/Lobby_ImageView_PositionView"
+        android:layout_width="392dp"
+        android:layout_height="188dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/Lobby_BTN_Disonnect"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Lobby_Scrollview_Players"
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
 </android.support.constraint.ConstraintLayout>

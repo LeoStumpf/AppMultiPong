@@ -578,7 +578,7 @@ public class MainActivity extends AppCompatActivity {
                 // serverClass.run();
 
                 //setContentView(R.layout.host);
-
+                setContentView(R.layout.client_lobby);
 
 
 
@@ -597,7 +597,7 @@ public class MainActivity extends AppCompatActivity {
                 //Wechsele in Lobby für client
                 setContentView(R.layout.client_lobby);
 
-                btnClientReady=findViewById(R.id.Client_ready);
+                btnClientReady=findViewById(R.id.Lobby_Switch_Ready);
 
                 btnClientReady.setOnClickListener(new OnClickListener() {
                     @Override
