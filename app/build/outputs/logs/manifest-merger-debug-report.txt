@@ -1,160 +1,160 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:2:1-36:12
-INJECTED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:2:1-36:12
-INJECTED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:2:1-36:12
-INJECTED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:2:1-36:12
-MERGED from [com.android.support:design:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\design-27.1.1.aar\7e1223d1fb25db37e8f311255937c821\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:appcompat-v7:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\appcompat-v7-27.1.1.aar\4ffd09dd0fc1c1ab683851a9d82a7a78\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\1a8dc9917d4139ecea472457211f894b\AndroidManifest.xml:2:1-11:12
-MERGED from [com.android.support:support-v4:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\support-v4-27.1.1.aar\217b8d3f055095f41013f7ca7905d3d3\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-fragment:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\support-fragment-27.1.1.aar\462c9199d596c3db01328fdeddcfe8ce\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:animated-vector-drawable:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-27.1.1.aar\40864f918898b8bd8fbdef5115dc60a6\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:recyclerview-v7:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-27.1.1.aar\3162786374bd5271313e230745006a1e\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-core-ui:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\support-core-ui-27.1.1.aar\38c30fb3c139b65ca6c1a2ea0b3dbc7d\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-core-utils:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\support-core-utils-27.1.1.aar\77e6092e7858dcd18bbf199ba098c883\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-vector-drawable:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-27.1.1.aar\7a986c7aeb8f158d74d1dc6149593e5c\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:transition:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\transition-27.1.1.aar\75fbc386c569e672a254d84b886857e2\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-media-compat:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\support-media-compat-27.1.1.aar\dbfff2d727d629334240f5dc47c43754\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-compat:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\support-compat-27.1.1.aar\2cd5843cb964a04b5262f67e998df35d\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.lifecycle:livedata-core:1.1.0] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.0.aar\e85124e4d1dfb88a070d3e0ff4552d0f\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.lifecycle:viewmodel:1.1.0] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.0.aar\d860a78774deb911a064118bdaa5a08b\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.lifecycle:runtime:1.1.0] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\0a491f474a5b7080b8a7e5583874955b\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.core:runtime:1.1.0] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\a20a842d806e7e1d2b1ad4b3b93e6b63\AndroidManifest.xml:17:1-22:12
-INJECTED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:2:1-36:12
-INJECTED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:2:1-36:12
-INJECTED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:2:1-36:12
+ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:2:1-36:12
+MERGED from [com.android.support:design:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\design-27.1.1.aar\b0c2bee136c2d1fb690ace2d59bdd616\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:appcompat-v7:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\appcompat-v7-27.1.1.aar\d1eb62532573d30f2dc0c9c694293132\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\4604d058e9a3cac30cd616b4f2b25393\AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:support-v4:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\support-v4-27.1.1.aar\a11bc312b568da05beaa2518ce5f6621\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-fragment:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\support-fragment-27.1.1.aar\f567ad488e87dac99a0386666d3b2fee\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:animated-vector-drawable:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-27.1.1.aar\a858748b22838f88a8b936f8a0d84151\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:recyclerview-v7:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-27.1.1.aar\992ca133266d8b7aaea2d7dedbc20b0b\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\support-core-ui-27.1.1.aar\541ee7d5562c376aab2419959a8a4da0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\support-core-utils-27.1.1.aar\3df87be17057103ac253080ac9a337cc\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-27.1.1.aar\5cab134768b49e1842de8ffdc77acd36\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:transition:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\transition-27.1.1.aar\796ef2cde95fc943eea32b4463aeb9f8\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-media-compat:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\support-media-compat-27.1.1.aar\92a1fb4564d6ce8b5655cacbe18486c3\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\support-compat-27.1.1.aar\a6e8e900f23ef2dc971146a9e6812d4f\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.0] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.0.aar\56b262f01727854ea9dd514f5a04245c\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.0] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.0.aar\17549df5cee27ef7550850e41d5af622\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.1.0] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\9a2394430252d4a06dfe2ed19d2859bc\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.0] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\9e6a50fd6e280bfc339f142fca793fd9\AndroidManifest.xml:17:1-22:12
+INJECTED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:2:1-36:12
 	package
-		ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:3:5-40
-		INJECTED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:3:5-40
+		INJECTED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
 	android:versionName
-		INJECTED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:2:1-36:12
-		INJECTED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:2:1-36:12
+		INJECTED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
 	android:versionCode
-		INJECTED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:2:1-36:12
-		INJECTED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:2:1-36:12
+		INJECTED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:2:11-69
+		ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:2:11-69
 uses-permission#android.permission.ACCESS_WIFI_STATE
-ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:5:5-76
+ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:5:5-76
 	android:name
-		ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:5:22-73
+		ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:5:22-73
 uses-permission#android.permission.CHANGE_WIFI_STATE
-ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:6:5-76
+ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:6:5-76
 	android:name
-		ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:6:22-73
+		ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:6:22-73
 uses-permission#android.permission.CHANGE_NETWORK_STATE
-ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:7:5-79
+ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:7:5-79
 	android:name
-		ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:7:22-76
+		ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:7:22-76
 uses-permission#android.permission.INTERNET
-ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:8:5-67
+ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:8:5-67
 	android:name
-		ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:8:22-64
+		ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:8:22-64
 uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:9:5-79
+ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:9:5-79
 	android:name
-		ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:9:22-76
+		ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:9:22-76
 uses-permission#android.permission.ACCESS_LOCATION_EXTRA_COMMANDS
-ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:10:5-89
+ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:10:5-89
 	android:name
-		ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:10:22-86
+		ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:10:22-86
 uses-permission#android.permission.ACCESS_COARSE_LOCATION
-ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:11:5-13:35
+ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:11:5-13:35
 	android:required
-		ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:13:9-32
+		ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:13:9-32
 	android:name
-		ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:12:9-65
+		ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:12:9-65
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:14:5-81
+ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:14:5-81
 	android:name
-		ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:14:22-78
+		ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:14:22-78
 uses-feature#android.hardware.location.gps
-ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:17:5-66
+ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:17:5-66
 	android:name
-		ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:17:19-63
+		ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:17:19-63
 application
-ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:19:5-34:19
-MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\1a8dc9917d4139ecea472457211f894b\AndroidManifest.xml:9:5-20
-MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\1a8dc9917d4139ecea472457211f894b\AndroidManifest.xml:9:5-20
+ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:19:5-34:19
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\4604d058e9a3cac30cd616b4f2b25393\AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\4604d058e9a3cac30cd616b4f2b25393\AndroidManifest.xml:9:5-20
 	android:supportsRtl
-		ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:24:9-35
+		ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:24:9-35
 	android:label
-		ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:22:9-41
+		ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:22:9-41
 	android:roundIcon
-		ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:23:9-54
+		ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:23:9-54
 	android:icon
-		ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:21:9-43
+		ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:21:9-43
 	android:allowBackup
-		ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:20:9-35
+		ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:20:9-35
 	android:theme
-		ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:25:9-40
+		ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:25:9-40
 activity#com.Project.App.Multipong.GameActivity
-ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:26:9-84
+ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:26:9-84
 	android:name
-		ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:26:19-72
+		ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:26:19-72
 activity#com.Project.App.Multipong.MainActivity
-ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:27:9-33:20
+ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:27:9-33:20
 	android:name
-		ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:27:19-72
+		ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:27:19-72
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:28:13-32:29
+ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:28:13-32:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:29:17-69
+ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:29:17-69
 	android:name
-		ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:29:25-66
+		ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:29:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:31:17-77
+ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:31:17-77
 	android:name
-		ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:31:27-74
+		ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml:31:27-74
 uses-sdk
-INJECTED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
-INJECTED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
-MERGED from [com.android.support:design:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\design-27.1.1.aar\7e1223d1fb25db37e8f311255937c821\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:design:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\design-27.1.1.aar\7e1223d1fb25db37e8f311255937c821\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:appcompat-v7:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\appcompat-v7-27.1.1.aar\4ffd09dd0fc1c1ab683851a9d82a7a78\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:appcompat-v7:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\appcompat-v7-27.1.1.aar\4ffd09dd0fc1c1ab683851a9d82a7a78\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\1a8dc9917d4139ecea472457211f894b\AndroidManifest.xml:5:5-7:41
-MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\1a8dc9917d4139ecea472457211f894b\AndroidManifest.xml:5:5-7:41
-MERGED from [com.android.support:support-v4:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\support-v4-27.1.1.aar\217b8d3f055095f41013f7ca7905d3d3\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-v4:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\support-v4-27.1.1.aar\217b8d3f055095f41013f7ca7905d3d3\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-fragment:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\support-fragment-27.1.1.aar\462c9199d596c3db01328fdeddcfe8ce\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-fragment:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\support-fragment-27.1.1.aar\462c9199d596c3db01328fdeddcfe8ce\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:animated-vector-drawable:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-27.1.1.aar\40864f918898b8bd8fbdef5115dc60a6\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:animated-vector-drawable:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-27.1.1.aar\40864f918898b8bd8fbdef5115dc60a6\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:recyclerview-v7:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-27.1.1.aar\3162786374bd5271313e230745006a1e\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:recyclerview-v7:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-27.1.1.aar\3162786374bd5271313e230745006a1e\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-ui:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\support-core-ui-27.1.1.aar\38c30fb3c139b65ca6c1a2ea0b3dbc7d\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-ui:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\support-core-ui-27.1.1.aar\38c30fb3c139b65ca6c1a2ea0b3dbc7d\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-utils:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\support-core-utils-27.1.1.aar\77e6092e7858dcd18bbf199ba098c883\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-utils:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\support-core-utils-27.1.1.aar\77e6092e7858dcd18bbf199ba098c883\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-27.1.1.aar\7a986c7aeb8f158d74d1dc6149593e5c\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-27.1.1.aar\7a986c7aeb8f158d74d1dc6149593e5c\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:transition:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\transition-27.1.1.aar\75fbc386c569e672a254d84b886857e2\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:transition:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\transition-27.1.1.aar\75fbc386c569e672a254d84b886857e2\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-media-compat:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\support-media-compat-27.1.1.aar\dbfff2d727d629334240f5dc47c43754\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-media-compat:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\support-media-compat-27.1.1.aar\dbfff2d727d629334240f5dc47c43754\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-compat:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\support-compat-27.1.1.aar\2cd5843cb964a04b5262f67e998df35d\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-compat:27.1.1] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\support-compat-27.1.1.aar\2cd5843cb964a04b5262f67e998df35d\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:livedata-core:1.1.0] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.0.aar\e85124e4d1dfb88a070d3e0ff4552d0f\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:livedata-core:1.1.0] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.0.aar\e85124e4d1dfb88a070d3e0ff4552d0f\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:viewmodel:1.1.0] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.0.aar\d860a78774deb911a064118bdaa5a08b\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:viewmodel:1.1.0] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.0.aar\d860a78774deb911a064118bdaa5a08b\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:runtime:1.1.0] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\0a491f474a5b7080b8a7e5583874955b\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:runtime:1.1.0] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\0a491f474a5b7080b8a7e5583874955b\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.core:runtime:1.1.0] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\a20a842d806e7e1d2b1ad4b3b93e6b63\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.core:runtime:1.1.0] C:\Users\Simon\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\a20a842d806e7e1d2b1ad4b3b93e6b63\AndroidManifest.xml:20:5-44
-INJECTED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
-INJECTED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
+MERGED from [com.android.support:design:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\design-27.1.1.aar\b0c2bee136c2d1fb690ace2d59bdd616\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:design:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\design-27.1.1.aar\b0c2bee136c2d1fb690ace2d59bdd616\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\appcompat-v7-27.1.1.aar\d1eb62532573d30f2dc0c9c694293132\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\appcompat-v7-27.1.1.aar\d1eb62532573d30f2dc0c9c694293132\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\4604d058e9a3cac30cd616b4f2b25393\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\4604d058e9a3cac30cd616b4f2b25393\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:support-v4:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\support-v4-27.1.1.aar\a11bc312b568da05beaa2518ce5f6621\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\support-v4-27.1.1.aar\a11bc312b568da05beaa2518ce5f6621\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\support-fragment-27.1.1.aar\f567ad488e87dac99a0386666d3b2fee\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\support-fragment-27.1.1.aar\f567ad488e87dac99a0386666d3b2fee\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-27.1.1.aar\a858748b22838f88a8b936f8a0d84151\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-27.1.1.aar\a858748b22838f88a8b936f8a0d84151\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-27.1.1.aar\992ca133266d8b7aaea2d7dedbc20b0b\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-27.1.1.aar\992ca133266d8b7aaea2d7dedbc20b0b\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\support-core-ui-27.1.1.aar\541ee7d5562c376aab2419959a8a4da0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\support-core-ui-27.1.1.aar\541ee7d5562c376aab2419959a8a4da0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\support-core-utils-27.1.1.aar\3df87be17057103ac253080ac9a337cc\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\support-core-utils-27.1.1.aar\3df87be17057103ac253080ac9a337cc\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-27.1.1.aar\5cab134768b49e1842de8ffdc77acd36\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-27.1.1.aar\5cab134768b49e1842de8ffdc77acd36\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\transition-27.1.1.aar\796ef2cde95fc943eea32b4463aeb9f8\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\transition-27.1.1.aar\796ef2cde95fc943eea32b4463aeb9f8\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\support-media-compat-27.1.1.aar\92a1fb4564d6ce8b5655cacbe18486c3\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\support-media-compat-27.1.1.aar\92a1fb4564d6ce8b5655cacbe18486c3\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\support-compat-27.1.1.aar\a6e8e900f23ef2dc971146a9e6812d4f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:27.1.1] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\support-compat-27.1.1.aar\a6e8e900f23ef2dc971146a9e6812d4f\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.0] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.0.aar\56b262f01727854ea9dd514f5a04245c\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.0] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.0.aar\56b262f01727854ea9dd514f5a04245c\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.0] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.0.aar\17549df5cee27ef7550850e41d5af622\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.0] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.0.aar\17549df5cee27ef7550850e41d5af622\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.0] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\9a2394430252d4a06dfe2ed19d2859bc\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.0] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\9a2394430252d4a06dfe2ed19d2859bc\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.0] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\9e6a50fd6e280bfc339f142fca793fd9\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.0] C:\Users\kaise\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\9e6a50fd6e280bfc339f142fca793fd9\AndroidManifest.xml:20:5-44
+INJECTED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\Simon\AndroidStudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\kaise\StudioProjects\AppMultiPong\app\src\main\AndroidManifest.xml
