@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.net.wifi.p2p.WifiP2pInfo;
-import android.widget.Toast;
 
 
 
