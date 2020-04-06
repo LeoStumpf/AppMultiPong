@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\leoau\\Downloads\\001 Code\\MultiPong-master (1)\\MultiPong-master\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v24\\values-v24.xml",
+            "outputFile": "C:\\Users\\Leo\\App\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v24\\values-v24.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\leoau\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.1.1.aar\\11dd0960e6088a784e549009b8a0d83f\\res\\values-v24\\values-v24.xml",
+                    "source": "C:\\Users\\Leo\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.1.1.aar\\7688c06940c7eb56b691a048ef252ab0\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\leoau\\.gradle\\caches\\transforms-1\\files-1.1\\support-media-compat-27.1.1.aar\\15951c703404f9a6322aeef2b45e37c8\\res\\values-v24\\values-v24.xml",
+                    "source": "C:\\Users\\Leo\\.gradle\\caches\\transforms-1\\files-1.1\\support-media-compat-27.1.1.aar\\1e656c2b41aa4b4ca690fc50590243bd\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",

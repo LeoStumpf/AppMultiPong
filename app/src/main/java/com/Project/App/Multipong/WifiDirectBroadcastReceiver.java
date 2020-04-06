@@ -12,10 +12,10 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver {
 
     private WifiP2pManager mManager;
     private  WifiP2pManager.Channel mChannel;
-    private MainActivity mActivity;
+    private p2pConnection mActivity;
     public WifiP2pDevice myDevice;
 
-    public WifiDirectBroadcastReceiver(WifiP2pManager mManager, WifiP2pManager.Channel mChannel, MainActivity mActivity){
+    public WifiDirectBroadcastReceiver(WifiP2pManager mManager, WifiP2pManager.Channel mChannel, p2pConnection mActivity){
         this.mManager = mManager;
         this.mChannel = mChannel;
         this.mActivity = mActivity;
@@ -27,7 +27,7 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         if (WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION.equals(action)) {
             Log.i("Empfanginger", "WifiDirectBroadcastreciver: WIFI_P2P_THIS_DEVICE_CHANGED_ACTION" );
-             myDevice =intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE);
+            myDevice =intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE);
         }
 
         if( WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION.equals(action)){
@@ -74,7 +74,7 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver {
 
         if (WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION.equals(action)) {
             Log.i("Empfanginger", "WifiDirectBroadcastreciver: WIFI_P2P_THIS_DEVICE_CHANGED_ACTION" );
-             myDevice =(WifiP2pDevice)intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE);
+            myDevice =(WifiP2pDevice)intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE);
         }
 
     }

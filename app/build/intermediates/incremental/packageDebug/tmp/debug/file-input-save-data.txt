@@ -1,7 +1,7 @@
 #Internal package file, do not edit.
-#Fri Oct 11 14:17:42 CEST 2019
+#Mon Apr 06 21:35:28 CEST 2020
 0.baseType=DIRECTORY
-0.base=C\:\\Users\\leoau\\Downloads\\001 Code\\MultiPong-master (1)\\MultiPong-master\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out
+0.base=C\:\\Users\\Leo\\App\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out
 0.path=classes.dex
 0.set=DEX
 count=1
