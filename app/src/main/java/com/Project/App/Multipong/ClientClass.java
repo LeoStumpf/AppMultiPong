@@ -7,30 +7,31 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
+public class ClientClass extends Thread {
 
-    public class ClientClass extends Thread{
-        Socket socket;
-        String hostAdd;
-        SendReceive sendReceive;
+    Socket socket;
+    String hostAddress;
+    SendReceive sendReceive;
 
-        @Override
-        public void run() {
-            try{
-                socket.connect(new InetSocketAddress(hostAdd,8888),500);
-                Log.i("Empfanginger", "Clientclass: run" );
-                sendReceive.setSocket(socket);
-                if (sendReceive.getState() == Thread.State.NEW){
-                    sendReceive.start();
-                };
+    private static final String TAG = "MultiPong";
 
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-        }
-        public ClientClass(InetAddress hostAddress,SendReceive sendReceive){
-            this.sendReceive = sendReceive;
-            hostAdd = hostAddress.getHostAddress();
-            socket= new Socket();
-        }
+    public ClientClass(InetAddress hostAddr, SendReceive sendReceive) {
+        this.sendReceive = sendReceive;
+        this.hostAddress = hostAddr.getHostAddress();
+        socket = new Socket();
     }
 
+    @Override
+    public void run() {
+        try {
+            Log.i(TAG, "ClientClass: connecting to " + hostAddress + ":8888");
+            socket.connect(new InetSocketAddress(hostAddress, 8888), 500);
+            sendReceive.setSocket(socket);
+            if (sendReceive.getState() == Thread.State.NEW) {
+                sendReceive.start();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}

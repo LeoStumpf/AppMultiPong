@@ -8,59 +8,54 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-public class SendReceive extends Thread{
+public class SendReceive extends Thread {
+
     private Socket socket;
     private InputStream inputStream;
     private OutputStream outputStream;
-    static int MESSAGE_READ =1;
+    static int MESSAGE_READ = 1;
     public Handler handler;
 
-    private static final String TAG ="DEBUGINGER";
+    private static final String TAG = "MultiPong";
 
-    public SendReceive(int MESSAGE_READ,Handler handler){
-        Log.i("Empfanginger", "SenRecive: New Handler" );
+    public SendReceive(int messageRead, Handler handler) {
+        Log.i(TAG, "SendReceive: created");
         this.handler = handler;
-
-        this.MESSAGE_READ = MESSAGE_READ;
+        this.MESSAGE_READ = messageRead;
     }
 
-    public void setSocket(Socket skt){
+    public void setSocket(Socket skt) {
         socket = skt;
-        try{
-            Log.i("Empfanginger", "Serversucket: set Socket" );
-            inputStream= socket.getInputStream();
+        try {
+            Log.i(TAG, "SendReceive: socket assigned");
+            inputStream  = socket.getInputStream();
             outputStream = socket.getOutputStream();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
     @Override
-    public void run(){
-        Log.i("Empfanginger", "Serversucket: run" );
+    public void run() {
+        Log.i(TAG, "SendReceive: run started");
         byte[] buffer = new byte[1024];
-        int bytes ;
+        int bytes;
 
-        while(socket != null){
+        while (socket != null) {
             try {
                 bytes = inputStream.read(buffer);
-                if(bytes > 0){
-                    handler.obtainMessage(MESSAGE_READ,bytes,-1,buffer).sendToTarget();
+                if (bytes > 0) {
+                    handler.obtainMessage(MESSAGE_READ, bytes, -1, buffer).sendToTarget();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-
             }
         }
-
     }
 
     public void write(final byte[] bytes) {
-        Log.i("Empfanginger", "Serversucket: Write" );
-
-        new Thread(new Runnable(){
+        Log.i(TAG, "SendReceive: write");
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
