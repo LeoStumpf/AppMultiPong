@@ -2,81 +2,61 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <Button
-        android:id="@+id/Lobby_BTN_Disonnect"
-        android:layout_width="175dp"
-        android:layout_height="75dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:text="Leave Lobby"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    android:layout_height="match_parent"
+    android:background="@color/bg_black">
 
     <TextView
         android:id="@+id/Lobby_Textview_Title"
-        android:layout_width="405dp"
-        android:layout_height="54dp"
-        android:text="MultiPong"
-        android:textSize="36sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="monospace"
+        android:letterSpacing="0.15"
+        android:text="@string/lobby_title"
+        android:textColor="@color/pixel_white"
+        android:textSize="32sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
-        android:id="@+id/Lobby_Scrollview_Players"
-        android:layout_width="409dp"
-        android:layout_height="366dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Lobby_Textview_Title"
-        app:layout_constraintVertical_bias="0.0">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
+    <!-- ── Settings ──────────────────────────────────────────────────── -->
 
     <TextView
         android:id="@+id/Lobby_TextView_StartVelocity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="16dp"
-        android:text="Ball Speed"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="48dp"
+        android:text="@string/label_ball_speed"
+        android:textColor="@color/pixel_white"
+        android:textSize="13sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Lobby_Scrollview_Players" />
+        app:layout_constraintTop_toBottomOf="@+id/Lobby_Textview_Title" />
 
-    <Button
-        android:id="@+id/Lobby_Switch_Ready"
-        android:layout_width="173dp"
-        android:layout_height="66dp"
-        android:layout_marginBottom="24dp"
-        android:text="Ready"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <TextView
+        android:id="@+id/Lobby_TV_SpeedVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="3"
+        android:textColor="@color/neon_cyan"
+        android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/Lobby_BTN_Disonnect" />
+        app:layout_constraintTop_toTopOf="@+id/Lobby_TextView_StartVelocity" />
 
     <SeekBar
         android:id="@+id/Lobby_SeekBar_StartVelocity"
         style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:layout_width="360dp"
-        android:layout_height="28dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="24dp"
         android:max="10"
         android:progress="3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.431"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Lobby_TextView_StartVelocity" />
 
@@ -85,19 +65,35 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:text="Speed Gain"
+        android:layout_marginTop="20dp"
+        android:text="@string/label_speed_gain"
+        android:textColor="@color/pixel_white"
+        android:textSize="13sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Lobby_SeekBar_StartVelocity" />
+
+    <TextView
+        android:id="@+id/Lobby_TV_GainVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="3"
+        android:textColor="@color/neon_cyan"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/lobby_TextView_VelocityGain" />
 
     <SeekBar
         android:id="@+id/Lobby_SeekBar_VelocityGain"
         style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:layout_width="356dp"
-        android:layout_height="25dp"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="24dp"
         android:max="10"
         android:progress="3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.472"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lobby_TextView_VelocityGain" />
 
@@ -105,23 +101,65 @@
         android:id="@+id/lobby_TextView_EndPoints"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="16dp"
-        android:text="Win Score"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/label_win_score"
+        android:textColor="@color/pixel_white"
+        android:textSize="13sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Lobby_SeekBar_VelocityGain" />
+
+    <TextView
+        android:id="@+id/Lobby_TV_PointsVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="3"
+        android:textColor="@color/neon_cyan"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/lobby_TextView_EndPoints" />
 
     <SeekBar
         android:id="@+id/Lobby_SeekBar_EndPoints"
         style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:layout_width="356dp"
-        android:layout_height="23dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="24dp"
         android:max="10"
         android:progress="3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lobby_TextView_EndPoints" />
+
+    <!-- ── Bottom bar ─────────────────────────────────────────────────── -->
+
+    <Button
+        android:id="@+id/Lobby_BTN_Disonnect"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="32dp"
+        android:text="@string/btn_leave"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/Lobby_Switch_Ready"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/Lobby_Switch_Ready"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="32dp"
+        android:text="@string/btn_ready"
+        android:textColor="@color/bg_black"
+        android:backgroundTint="@color/neon_cyan"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Lobby_BTN_Disonnect" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

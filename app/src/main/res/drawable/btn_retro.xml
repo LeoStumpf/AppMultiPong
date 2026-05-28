@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Pressed: cyan fill -->
+    <item android:state_pressed="true">
+        <shape>
+            <solid android:color="#00F5FF" />
+        </shape>
+    </item>
+
+    <!-- Focused (keyboard/D-pad): dim cyan border -->
+    <item android:state_focused="true">
+        <shape>
+            <solid android:color="#111111" />
+            <stroke android:width="2dp" android:color="#00F5FF" />
+        </shape>
+    </item>
+
+    <!-- Default: dark background with white border -->
+    <item>
+        <shape>
+            <solid android:color="#111111" />
+            <stroke android:width="2dp" android:color="#E8E8E8" />
+        </shape>
+    </item>
+
+</selector>

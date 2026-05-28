@@ -4,16 +4,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000">
+    android:background="@color/bg_black">
 
     <TextView
         android:id="@+id/host_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
+        android:fontFamily="monospace"
+        android:letterSpacing="0.2"
         android:text="HOSTING"
-        android:textColor="#FFFFFF"
-        android:textSize="32sp"
+        android:textColor="@color/neon_cyan"
+        android:textSize="28sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,9 +26,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Waiting for opponent..."
-        android:textColor="#AAAAAA"
-        android:textSize="18sp"
+        android:text="@string/host_waiting"
+        android:textColor="@color/pixel_white"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/host_title" />
@@ -35,9 +38,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="Tap phones together to connect instantly"
-        android:textColor="#666666"
-        android:textSize="14sp"
+        android:text="@string/host_nfc_hint"
+        android:textColor="@color/border_grey"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/host_status" />
@@ -51,19 +54,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/host_nfc_hint" />
 
-    <!-- Shown (visibility=visible) once a client connects -->
     <Button
         android:id="@+id/game_Start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="64dp"
-        android:text="Start Game"
-        android:visibility="visible"
+        android:text="@string/btn_start_game"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Hidden placeholder kept for ID compatibility -->
+    <!-- Hidden placeholder — ID kept for backward compatibility -->
     <ListView
         android:id="@+id/Player_connected"
         android:layout_width="0dp"

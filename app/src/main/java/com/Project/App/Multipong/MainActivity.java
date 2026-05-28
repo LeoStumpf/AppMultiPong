@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -318,19 +319,39 @@ public class MainActivity extends AppCompatActivity {
         unregisterBtReceiver();
 
         setContentView(R.layout.client_lobby);
+        setupLobbySeekBars();
 
         if (!IsHost) {
-            // Client: hook up the Ready button
             btnClientReady = (Button) findViewById(R.id.Lobby_Switch_Ready);
             btnClientReady.setOnClickListener(v -> sendToSendRecive("ClientIsReady"));
         }
 
-        // Send screen dimensions to the other device so both can compute play field
+        // Send screen dimensions to the other device so both can compute the play field
         String saMsg = "Sa_Dim" + x_display + ">" + y_display + "#"
                 + (int) getResources().getDisplayMetrics().density + "<"
                 + (IsHost ? 1 : 2);
         sendToSendRecive(saMsg);
         Log.i(TAG, "onConnectionEstablished: sent " + saMsg);
+    }
+
+    private void setupLobbySeekBars() {
+        bindSeekBar(R.id.Lobby_SeekBar_StartVelocity, R.id.Lobby_TV_SpeedVal);
+        bindSeekBar(R.id.Lobby_SeekBar_VelocityGain,  R.id.Lobby_TV_GainVal);
+        bindSeekBar(R.id.Lobby_SeekBar_EndPoints,      R.id.Lobby_TV_PointsVal);
+    }
+
+    private void bindSeekBar(int seekBarId, int valueTextId) {
+        SeekBar seekBar   = findViewById(seekBarId);
+        TextView valueTV  = findViewById(valueTextId);
+        if (seekBar == null || valueTV == null) return;
+        valueTV.setText(String.valueOf(seekBar.getProgress()));
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override public void onProgressChanged(SeekBar sb, int p, boolean fromUser) {
+                valueTV.setText(String.valueOf(p));
+            }
+            @Override public void onStartTrackingTouch(SeekBar sb) {}
+            @Override public void onStopTrackingTouch(SeekBar sb) {}
+        });
     }
 
     // ── Message protocol ──────────────────────────────────────────────────────

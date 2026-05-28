@@ -1,4 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Multipong</string>
-    <string name="title_activity_conversazioni">Conversazioni</string>
+    <string name="app_name">MultiPong</string>
+    <string name="btn_host">HOST</string>
+    <string name="btn_join">JOIN</string>
+    <string name="btn_start_game">START GAME</string>
+    <string name="btn_ready">READY</string>
+    <string name="btn_leave">LEAVE</string>
+    <string name="label_ball_speed">BALL SPEED</string>
+    <string name="label_speed_gain">SPEED GAIN</string>
+    <string name="label_win_score">WIN SCORE</string>
+    <string name="lobby_title">MULTIPONG</string>
+    <string name="host_waiting">Waiting for opponent…</string>
+    <string name="host_nfc_hint">Tap phones together to connect instantly</string>
+    <string name="join_title">JOIN GAME</string>
+    <string name="join_nfc_hint">Tap phones together  —  or select a host below</string>
+    <string name="join_scan_label">Nearby Bluetooth devices:</string>
 </resources>

@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#0c7c51</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <!-- Retro pixel palette -->
+    <color name="bg_black">#0A0A0A</color>
+    <color name="dark_panel">#111111</color>
+    <color name="border_grey">#333333</color>
+    <color name="pixel_white">#E8E8E8</color>
+    <color name="neon_cyan">#00F5FF</color>
+    <color name="neon_magenta">#FF00AA</color>
+
+    <!-- Theme colour aliases -->
+    <color name="colorPrimary">@color/neon_cyan</color>
+    <color name="colorPrimaryDark">@color/bg_black</color>
+    <color name="colorAccent">@color/neon_magenta</color>
 </resources>

@@ -1,56 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    android:background="@drawable/backgound_hauptmenue"
+    tools:context=".MainActivity">
 
-    android:background="@drawable/backgound_hauptmenue">
-
-
-    <ImageView
+    <!-- Full-screen invisible view used to measure display dimensions before game starts -->
+    <View
         android:id="@+id/messureBild"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/main_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginBottom="0dp"
-        android:scaleType="fitXY"
-        android:visibility="visible"
-        app:srcCompat="@drawable/backgound_hauptmenue" />
+        android:layout_marginTop="48dp"
+        android:fontFamily="monospace"
+        android:letterSpacing="0.15"
+        android:text="MULTIPONG"
+        android:textColor="@color/pixel_white"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- JOIN button: upper of the two, original image asset kept -->
     <ImageButton
         android:id="@+id/join"
-        android:layout_width="181dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="115dp"
-        android:layout_marginTop="105dp"
+        android:layout_marginBottom="20dp"
         android:adjustViewBounds="true"
         android:background="@null"
+        android:contentDescription="@string/btn_join"
         android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/server"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/buttonejoin" />
 
+    <!-- HOST button: lower of the two, vertically centred on screen -->
     <ImageButton
         android:id="@+id/server"
-        android:layout_width="181dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="114dp"
-        android:layout_marginTop="199dp"
         android:adjustViewBounds="true"
         android:background="@null"
+        android:contentDescription="@string/btn_host"
         android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.52"
         app:srcCompat="@drawable/buttonserver" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

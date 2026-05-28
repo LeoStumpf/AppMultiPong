@@ -1,15 +1,27 @@
 <resources>
 
-    <!-- Base application theme. -->
-
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <!-- Dark retro base theme -->
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/neon_cyan</item>
+        <item name="colorPrimaryDark">@color/bg_black</item>
+        <item name="colorAccent">@color/neon_magenta</item>
+        <item name="android:windowBackground">@color/bg_black</item>
+        <item name="android:textColor">@color/pixel_white</item>
+        <item name="android:fontFamily">monospace</item>
+        <item name="buttonStyle">@style/RetroButton</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <!-- Retro pixel button: dark panel with white border, cyan on press -->
+    <style name="RetroButton" parent="Widget.AppCompat.Button">
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textColor">@color/pixel_white</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">0.08</item>
+        <item name="android:background">@drawable/btn_retro</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+    </style>
 
 </resources>
