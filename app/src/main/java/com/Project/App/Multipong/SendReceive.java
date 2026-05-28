@@ -1,18 +1,19 @@
 package com.Project.App.Multipong;
 
+import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
 import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.Socket;
 
 public class SendReceive extends Thread {
 
-    private Socket socket;
-    private InputStream inputStream;
+    private InputStream  inputStream;
     private OutputStream outputStream;
+    private volatile boolean running = false;
+
     static int MESSAGE_READ = 1;
     public Handler handler;
 
@@ -20,19 +21,24 @@ public class SendReceive extends Thread {
 
     public SendReceive(int messageRead, Handler handler) {
         Log.i(TAG, "SendReceive: created");
-        this.handler = handler;
+        this.handler      = handler;
         this.MESSAGE_READ = messageRead;
     }
 
-    public void setSocket(Socket skt) {
-        socket = skt;
+    /** Assign a Bluetooth socket as the communication channel. */
+    public void setSocket(BluetoothSocket btSocket) {
         try {
-            Log.i(TAG, "SendReceive: socket assigned");
-            inputStream  = socket.getInputStream();
-            outputStream = socket.getOutputStream();
+            Log.i(TAG, "SendReceive: BT socket assigned");
+            inputStream  = btSocket.getInputStream();
+            outputStream = btSocket.getOutputStream();
+            running = true;
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void disconnect() {
+        running = false;
     }
 
     @Override
@@ -41,28 +47,29 @@ public class SendReceive extends Thread {
         byte[] buffer = new byte[1024];
         int bytes;
 
-        while (socket != null) {
+        while (running) {
             try {
                 bytes = inputStream.read(buffer);
                 if (bytes > 0) {
-                    handler.obtainMessage(MESSAGE_READ, bytes, -1, buffer).sendToTarget();
+                    // Deliver a copy of the buffer — the same byte[] is reused each loop
+                    byte[] copy = new byte[bytes];
+                    System.arraycopy(buffer, 0, copy, 0, bytes);
+                    handler.obtainMessage(MESSAGE_READ, bytes, -1, copy).sendToTarget();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(TAG, "SendReceive: read error, stopping", e);
+                running = false;
             }
         }
     }
 
     public void write(final byte[] bytes) {
-        Log.i(TAG, "SendReceive: write");
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    outputStream.write(bytes);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        Log.i(TAG, "SendReceive: write " + bytes.length + " bytes");
+        new Thread(() -> {
+            try {
+                outputStream.write(bytes);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }).start();
     }
