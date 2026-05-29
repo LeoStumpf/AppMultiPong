@@ -445,7 +445,7 @@ public class MainActivity extends AppCompatActivity {
 
     static void sendMessage(String text) {
         Log.i(TAG, "sendMessage: " + text);
-        sendReceive.write(text.getBytes());
+        sendReceive.write(text); // write(String) appends '\n' delimiter for stream framing
     }
 
     // ─────────────────────────────────────────────────────────────────────────

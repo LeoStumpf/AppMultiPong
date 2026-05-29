@@ -15,6 +15,9 @@ public class SendReceive extends Thread {
     private OutputStream outputStream;
     private volatile boolean running = false;
 
+    // Incomplete message fragment carried over between read() calls
+    private final StringBuilder readBuffer = new StringBuilder();
+
     static int MESSAGE_READ = 1;
     public Handler handler;
     /** Called on the main thread when the connection drops unexpectedly. */
@@ -52,28 +55,41 @@ public class SendReceive extends Thread {
     @Override
     public void run() {
         Log.i(TAG, "SendReceive: run started");
-        byte[] buffer = new byte[1024];
+        byte[] buffer = new byte[4096];
         int bytes;
 
         while (running) {
             try {
                 bytes = inputStream.read(buffer);
-                if (bytes > 0) {
-                    // Deliver a copy of the buffer — the same byte[] is reused each loop
-                    byte[] copy = new byte[bytes];
-                    System.arraycopy(buffer, 0, copy, 0, bytes);
-                    handler.obtainMessage(MESSAGE_READ, bytes, -1, copy).sendToTarget();
+                if (bytes <= 0) continue;
+
+                // Append the chunk to the carry-over buffer and dispatch complete lines.
+                // Each message is delimited by '\n' (added by write()).
+                // A single read() may contain 0, 1, or many complete messages.
+                readBuffer.append(new String(buffer, 0, bytes));
+                int newline;
+                while ((newline = readBuffer.indexOf("\n")) >= 0) {
+                    String msg = readBuffer.substring(0, newline);
+                    readBuffer.delete(0, newline + 1);
+                    if (!msg.isEmpty()) {
+                        byte[] msgBytes = msg.getBytes();
+                        handler.obtainMessage(MESSAGE_READ, msgBytes.length, -1, msgBytes)
+                               .sendToTarget();
+                    }
                 }
             } catch (IOException e) {
                 Log.e(TAG, "SendReceive: read error, stopping", e);
                 running = false;
-                // Capture before any concurrent null-out by disconnect() to avoid NPE
                 Runnable cb = onDisconnect;
                 if (cb != null) {
                     new Handler(Looper.getMainLooper()).post(cb);
                 }
             }
         }
+    }
+
+    public void write(final String message) {
+        write((message + "\n").getBytes());
     }
 
     public void write(final byte[] bytes) {
