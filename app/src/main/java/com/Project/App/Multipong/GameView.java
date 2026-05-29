@@ -11,40 +11,48 @@ import android.view.View;
 
 public class GameView extends View {
 
-    public static int amountPlayers;
-    public static int scoreLeft  = 0;
-    public static int scoreRight = 0;
+    // ── Constants ─────────────────────────────────────────────────────────────
+    private static final String TAG          = "MultiPong";
+    private static final int    PLAYER_COUNT = 2;
+    private static final float  REFERENCE_FPS = 60f;
 
-    public static Circle circle;
-    public static Screen thisScreen;
-    public static Screen[] screen;
-    Paddle paddle;
-    Paint paint;
-
-    private static final String TAG = "MultiPong";
+    // Roles stored in Screen.role
+    static final char ROLE_HOST   = 'h';
+    static final char ROLE_CLIENT = 'c';
 
     // Retro colour palette (ARGB)
-    private static final int COLOR_BACKGROUND   = Color.BLACK;
-    private static final int COLOR_SAFE_ZONE    = 0xFF2A2A2A;
-    private static final int COLOR_BALL         = 0xFFE8E8E8;
-    private static final int COLOR_CENTER_LINE  = 0x44E8E8E8;
-    private static final int COLOR_PADDLE_LEFT  = 0xFF00F5FF;
-    private static final int COLOR_PADDLE_RIGHT = 0xFFFF00AA;
-    private static final int COLOR_SCORE        = 0xFFE8E8E8;
-    private static final int COLOR_HINT         = 0x88E8E8E8;
-    private static final int COLOR_SCANLINE     = 0x18000000;
+    private static final int COLOR_BACKGROUND  = Color.BLACK;
+    private static final int COLOR_LETTERBOX   = 0xFF2A2A2A; // dark grey dead zone on larger screen
+    private static final int COLOR_BALL        = 0xFFE8E8E8;
+    private static final int COLOR_ALIGN_LINE  = 0x44E8E8E8; // semi-transparent alignment guide
+    private static final int COLOR_PADDLE_HOST = 0xFF00F5FF; // neon cyan  — left/host device
+    private static final int COLOR_PADDLE_JOIN = 0xFFFF00AA; // neon magenta — right/client device
+    private static final int COLOR_SCORE       = 0xFFE8E8E8;
+    private static final int COLOR_HINT        = 0x88E8E8E8;
+    private static final int COLOR_SCANLINE    = 0x18000000;
 
-    boolean ballStop = true;
-    boolean waitingForFingerUp = false;
+    // ── Shared state accessed by MainActivity ──────────────────────────────────
+    public static int    scoreLeft  = 0;
+    public static int    scoreRight = 0;
+    public static Circle circle;
+    public static Screen  thisDevice;  // this phone's screen data
+    public static Screen[]  screens;   // all connected phones (indexed 0..PLAYER_COUNT-1)
 
-    // Paddle hit flash — duration in seconds so it looks the same at any refresh rate
+    // ── Per-instance fields ────────────────────────────────────────────────────
+    private Paddle paddle;
+    private Paint  paint;
+
+    private boolean ballPaused          = true;
+    private boolean requireLift         = false; // wait for finger-up before allowing next launch
+    private float   paddleFlashRemaining = 0f;
+    private long    lastFrameNanos       = 0;
+
     private static final float FLASH_DURATION = 0.083f; // ~5 frames at 60 fps
-    float paddleFlashRemaining = 0f;
 
-    // Time-delta: normalize movement to REFERENCE_FPS so speed is identical
-    // regardless of screen refresh rate (60 Hz vs 144 Hz, etc.)
-    private long lastFrameNanos = 0;
-    private static final float REFERENCE_FPS = 60f;
+    // ─────────────────────────────────────────────────────────────────────────
+    // Constructor — sets up objects with placeholder dimensions.
+    // Real dimensions arrive in onSizeChanged() once the canvas is laid out.
+    // ─────────────────────────────────────────────────────────────────────────
 
     public GameView(Context context) {
         super(context);
@@ -53,137 +61,136 @@ public class GameView extends View {
         paint.setAntiAlias(true);
         paint.setFilterBitmap(true);
 
-        thisScreen = new Screen();
-        thisScreen.getOwnHandyTask();
-        thisScreen.getAmountPlayers();
-        thisScreen.getOwnHandyPosition();
-        // density is needed early (paddle/ball sizing); width/height come from onSizeChanged
-        thisScreen.density        = getResources().getDisplayMetrics().density;
-        thisScreen.adjustedHeight = 1; // placeholder; set in onSizeChanged
+        thisDevice = new Screen();
+        thisDevice.role     = MainActivity.isHost ? ROLE_HOST : ROLE_CLIENT;
+        thisDevice.deviceIndex = thisDevice.role == ROLE_HOST ? 1 : 2;
+        thisDevice.density  = getResources().getDisplayMetrics().density;
+        thisDevice.adjustedHeight = 1; // updated in onSizeChanged
 
-        if (thisScreen.HandyTask == 'h') {
-            screen = new Screen[amountPlayers];
-            for (int i = 0; i < amountPlayers; i++) {
-                screen[i] = new Screen();
-                screen[i].width = 0;
+        if (thisDevice.role == ROLE_HOST) {
+            screens = new Screen[PLAYER_COUNT];
+            for (int i = 0; i < PLAYER_COUNT; i++) {
+                screens[i] = new Screen();
+                screens[i].width = 0;
             }
-            // Apply any Sa_Dim that arrived during the lobby before GameView started
-            int p = MainActivity.pendingSaDimPos;
-            if (p > 0 && p <= amountPlayers) {
-                screen[p - 1].width         = MainActivity.pendingSaDimWidth;
-                screen[p - 1].height        = MainActivity.pendingSaDimHeight;
-                screen[p - 1].density       = MainActivity.pendingSaDimDensity;
-                screen[p - 1].HandyPosition = p;
-                MainActivity.pendingSaDimPos = -1;
-                Log.i(TAG, "GameView: buffered Sa_Dim applied pos=" + p);
+            // Apply any peer Sa_Dim that arrived during the lobby before the game started
+            int p = MainActivity.peerPos;
+            if (p > 0 && p <= PLAYER_COUNT) {
+                screens[p - 1].width       = MainActivity.peerWidth;
+                screens[p - 1].height      = MainActivity.peerHeight;
+                screens[p - 1].density     = MainActivity.peerDensity;
+                screens[p - 1].deviceIndex = p;
+                MainActivity.peerPos = -1;
+                Log.i(TAG, "GameView: applied buffered peer Sa_Dim pos=" + p);
             }
         }
 
         circle = new Circle();
-        circle.standardxspeed    = 0;
-        circle.standardyspeed    = 0;
-        circle.standardmaxyspeed = 20;
-        circle.standardradius    = 10;
-        circle.direction         = 1;
-        circle.CurrentHandy      = 1;
+        circle.velX      = 0;
+        circle.velY      = 0;
+        circle.maxVelY   = 20;
+        circle.baseRadius = 10;
+        circle.direction = 1;
+        circle.ownerIndex = 1;
 
         paddle = new Paddle();
 
-        scoreLeft          = 0;
-        scoreRight         = 0;
-        waitingForFingerUp = false;
+        scoreLeft  = 0;
+        scoreRight = 0;
+        requireLift = false;
     }
 
-    // Called by the Android framework with the exact canvas dimensions after the window
-    // is fully settled (immersive fullscreen system-bar hide completed).
+    // ─────────────────────────────────────────────────────────────────────────
+    // onSizeChanged — called with accurate canvas dimensions after the immersive
+    // fullscreen window has fully settled. This is the authoritative source for
+    // thisDevice.width / thisDevice.height.
+    // ─────────────────────────────────────────────────────────────────────────
+
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         Log.i(TAG, "onSizeChanged: w=" + w + " h=" + h);
 
-        thisScreen.width   = w;
-        thisScreen.height  = h;
-        thisScreen.density = getResources().getDisplayMetrics().density;
+        thisDevice.width   = w;
+        thisDevice.height  = h;
+        thisDevice.density = getResources().getDisplayMetrics().density;
 
-        if (thisScreen.HandyTask == 'h' && screen != null) {
-            int p = thisScreen.HandyPosition - 1;
-            screen[p].width         = w;
-            screen[p].height        = h;
-            screen[p].density       = thisScreen.density;
-            screen[p].HandyPosition = thisScreen.HandyPosition;
-            recomputeAdjustedHeight(); // fires immediately if client Sa_Dim already buffered
+        if (thisDevice.role == ROLE_HOST && screens != null) {
+            int idx = thisDevice.deviceIndex - 1;
+            screens[idx].width       = w;
+            screens[idx].height      = h;
+            screens[idx].density     = thisDevice.density;
+            screens[idx].deviceIndex = thisDevice.deviceIndex;
+            recomputePlayField(); // fires immediately if peer Sa_Dim already buffered
         }
 
-        if (thisScreen.HandyTask == 'j') {
-            if (MainActivity.pendingSaDimHeight > 0 && MainActivity.pendingSaDimDensity > 0) {
-                float remoteRefH = MainActivity.pendingSaDimHeight / MainActivity.pendingSaDimDensity;
-                float ownRefH    = h / thisScreen.density;
+        if (thisDevice.role == ROLE_CLIENT) {
+            if (MainActivity.peerHeight > 0 && MainActivity.peerDensity > 0) {
+                float remoteRefH = MainActivity.peerHeight / MainActivity.peerDensity;
+                float ownRefH    = h / thisDevice.density;
                 float minRefH    = Math.min(remoteRefH, ownRefH);
-                thisScreen.adjustedHeight = minRefH * thisScreen.density;
-                thisScreen.offset         = (h - thisScreen.adjustedHeight) / 2f;
-                MainActivity.pendingSaDimPos = -1;
-                Log.i(TAG, "onSizeChanged client: adjustedHeight=" + thisScreen.adjustedHeight
-                        + " offset=" + thisScreen.offset);
+                thisDevice.adjustedHeight = minRefH * thisDevice.density;
+                thisDevice.offset         = (h - thisDevice.adjustedHeight) / 2f;
+                MainActivity.peerPos = -1;
+                Log.i(TAG, "onSizeChanged client: adjustedHeight=" + thisDevice.adjustedHeight
+                        + " offset=" + thisDevice.offset);
             } else {
-                thisScreen.adjustedHeight = h;
-                thisScreen.offset         = 0;
+                thisDevice.adjustedHeight = h;
+                thisDevice.offset         = 0;
             }
-            // Send corrected Sa_Dim to the host so it can recalculate too
-            String msg = "Sa_Dim" + w + ">" + h + "#"
-                    + thisScreen.density + "<" + thisScreen.HandyPosition;
-            Log.i(TAG, "onSizeChanged: sending Sa_Dim: " + msg);
-            MainActivity.sendToSendRecive(msg);
+            // Send corrected Sa_Dim so the host can recalculate its play field too
+            MainActivity.sendMessage("Sa_Dim" + w + ">" + h + "#"
+                    + thisDevice.density + "<" + thisDevice.deviceIndex);
         }
 
-        repositionBallAndPaddle();
+        positionBallAndPaddle();
     }
 
-    // Recalculate the play-field dimensions for all connected screens.
+    // Recalculates play-field height for all connected screens.
     // Finds the smallest physical height (pixels / density = dp) across all devices,
-    // then converts it back to each device's pixel space. The device with more physical
-    // screen real estate gets letterbox bands; both play fields are the same physical size.
-    static void recomputeAdjustedHeight() {
-        if (screen == null || thisScreen == null) return;
-        float minRef = Float.MAX_VALUE;
-        for (Screen s : screen) {
-            if (s.width <= 0 || s.density <= 0) return; // not all peers known yet
+    // converts it to each device's pixel space, and centres it with offset bands.
+    static void recomputePlayField() {
+        if (screens == null || thisDevice == null) return;
+        float minRefH = Float.MAX_VALUE;
+        for (Screen s : screens) {
+            if (s.width <= 0 || s.density <= 0) return; // still waiting for peer
             float ref = s.height / s.density;
-            if (ref < minRef) minRef = ref;
+            if (ref < minRefH) minRefH = ref;
         }
-        for (Screen s : screen) {
-            s.adjustedHeight = minRef * s.density;
+        for (Screen s : screens) {
+            s.adjustedHeight = minRefH * s.density;
             s.offset         = (s.height - s.adjustedHeight) / 2f;
         }
-        int idx = thisScreen.HandyPosition - 1;
-        thisScreen.adjustedHeight = screen[idx].adjustedHeight;
-        thisScreen.offset         = screen[idx].offset;
-        Log.i(TAG, "recomputeAdjustedHeight: adjustedHeight=" + thisScreen.adjustedHeight
-                + " offset=" + thisScreen.offset);
+        int idx = thisDevice.deviceIndex - 1;
+        thisDevice.adjustedHeight = screens[idx].adjustedHeight;
+        thisDevice.offset         = screens[idx].offset;
+        Log.i(TAG, "recomputePlayField: adjustedHeight=" + thisDevice.adjustedHeight
+                + " offset=" + thisDevice.offset);
     }
 
-    private void repositionBallAndPaddle() {
-        float centreY = thisScreen.offset + thisScreen.adjustedHeight / 2f;
+    private void positionBallAndPaddle() {
+        float centreY = thisDevice.offset + thisDevice.adjustedHeight / 2f;
 
-        circle.xpos   = thisScreen.width / 2f;
-        circle.ypos   = centreY;
-        circle.radius = circle.standardradius * thisScreen.density;
-        circle.xspeed = 0;
-        circle.yspeed = 0;
+        circle.xpos     = thisDevice.width / 2f;
+        circle.ypos     = centreY;
+        circle.pxRadius = circle.baseRadius * thisDevice.density;
+        circle.pxVelX   = 0;
+        circle.pxVelY   = 0;
 
-        if (thisScreen.HandyPosition == 1) {
-            paddle.xdistance = 80  * thisScreen.density;
-            paddle.length    = 100 * thisScreen.density;
-            paddle.width     = 10  * thisScreen.density;
-            paddle.ypos      = centreY;
-            paddle.adjust    = 50  * thisScreen.density;
-            paddle.xpos      = paddle.xdistance;
-        } else if (thisScreen.HandyPosition == amountPlayers) {
-            paddle.xdistance = 80  * thisScreen.density;
-            paddle.length    = 100 * thisScreen.density;
-            paddle.width     = 10  * thisScreen.density;
-            paddle.ypos      = centreY;
-            paddle.adjust    = 50  * thisScreen.density;
-            paddle.xpos      = thisScreen.width - paddle.xdistance;
+        if (thisDevice.deviceIndex == 1) {
+            paddle.edgePadding = 80  * thisDevice.density;
+            paddle.halfLength  = 50  * thisDevice.density;
+            paddle.halfWidth   = 5   * thisDevice.density;
+            paddle.ypos        = centreY;
+            paddle.touchSlop   = 50  * thisDevice.density;
+            paddle.xpos        = paddle.edgePadding;
+        } else if (thisDevice.deviceIndex == PLAYER_COUNT) {
+            paddle.edgePadding = 80  * thisDevice.density;
+            paddle.halfLength  = 50  * thisDevice.density;
+            paddle.halfWidth   = 5   * thisDevice.density;
+            paddle.ypos        = centreY;
+            paddle.touchSlop   = 50  * thisDevice.density;
+            paddle.xpos        = thisDevice.width - paddle.edgePadding;
         }
 
         lastFrameNanos = 0;
@@ -193,87 +200,80 @@ public class GameView extends View {
     // Inner classes
     // ─────────────────────────────────────────────────────────────────────────
 
-    class Circle {
+    static class Circle {
         float xpos, ypos;
-        float standardxspeed, standardyspeed;
-        float xspeed, yspeed;
-        float maxyspeed, standardmaxyspeed;
-        float standardradius, radius;
-        int CurrentHandy;
-        int direction;
+        float velX, velY;         // density-independent velocities (dp/frame at 60fps)
+        float pxVelX, pxVelY;    // pixel velocities, computed each frame by applyDensity()
+        float maxVelY, pxMaxVelY;
+        float baseRadius, pxRadius;
+        int   ownerIndex;         // deviceIndex of the phone currently running the ball
+        int   direction;          // launch direction: +1 = right, -1 = left
 
-        public void move(float dtScale) {
-            xpos += xspeed * dtScale;
-            ypos += yspeed * dtScale;
+        void applyDensity() {
+            pxVelX    = velX    * thisDevice.density;
+            pxVelY    = velY    * thisDevice.density;
+            pxRadius  = baseRadius * thisDevice.density;
+            pxMaxVelY = maxVelY * thisDevice.density;
         }
 
-        public void getSpecificValues() {
-            xspeed    = standardxspeed    * thisScreen.density;
-            yspeed    = standardyspeed    * thisScreen.density;
-            radius    = standardradius    * thisScreen.density;
-            maxyspeed = standardmaxyspeed * thisScreen.density;
+        void move(float dtScale) {
+            xpos += pxVelX * dtScale;
+            ypos += pxVelY * dtScale;
         }
-
-        public void checkHitbox() {
-            // Bounce off top/bottom play-field walls
-            if (ypos > thisScreen.height - radius - thisScreen.offset && standardyspeed > 0)
-                standardyspeed *= -1;
-            if (ypos < radius + thisScreen.offset && standardyspeed < 0)
-                standardyspeed *= -1;
-
-            // Left paddle collision (device 1)
-            if (thisScreen.HandyPosition == 1
-                    && xpos - radius <= paddle.xpos + paddle.width
-                    && xpos - radius >= paddle.xpos - paddle.width
-                    && ypos >= paddle.ypos - paddle.length / 2
-                    && ypos <= paddle.ypos + paddle.length / 2
-                    && standardxspeed < 0) {
-                standardxspeed *= -1;
-                // standardmaxyspeed is density-independent → standardyspeed stays density-independent
-                standardyspeed = (float) Math.sin(Math.PI * (ypos - paddle.ypos) / paddle.length)
-                        * standardmaxyspeed * 0.3f;
-                paddleFlashRemaining = FLASH_DURATION;
-            }
-
-            // Right paddle collision (last device)
-            if (thisScreen.HandyPosition == amountPlayers
-                    && xpos + radius >= paddle.xpos - paddle.width
-                    && xpos + radius <= paddle.xpos + paddle.width
-                    && ypos >= paddle.ypos - paddle.length
-                    && ypos <= paddle.ypos + paddle.length
-                    && standardxspeed > 0) {
-                standardxspeed *= -1;
-                standardyspeed = (float) Math.sin(Math.PI * (ypos - paddle.ypos) / paddle.length)
-                        * standardmaxyspeed * 0.3f;
-                paddleFlashRemaining = FLASH_DURATION;
-            }
-        }
-
-        public void getPosX(float value) { xpos = value; }
-        public void getPosY(float value) { ypos = value; }
     }
 
-    class Screen {
+    static class Screen {
         float width, height;
         float density;
         float adjustedHeight, offset;
-        int HandyPosition;
-        char HandyTask;
-
-        public void getOwnHandyPosition() {
-            if (HandyTask == 'h') HandyPosition = 1;
-            if (HandyTask == 'j') HandyPosition = 2;
-        }
-
-        public void getOwnHandyTask() {
-            HandyTask = MainActivity.IsHost ? 'h' : 'j';
-        }
-
-        public void getAmountPlayers() { amountPlayers = 2; }
+        int   deviceIndex; // 1 = leftmost (host), 2 = rightmost (client)
+        char  role;        // ROLE_HOST or ROLE_CLIENT
     }
 
-    class Paddle {
-        float xdistance, xpos, ypos, length, width, adjust;
+    static class Paddle {
+        float xpos, ypos;
+        float edgePadding; // distance from screen edge to paddle centre
+        float halfLength;  // half-height of paddle
+        float halfWidth;   // half-width of paddle
+        float touchSlop;   // extra touch area above/below paddle
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Collision detection
+    // ─────────────────────────────────────────────────────────────────────────
+
+    private void checkHitbox() {
+        // Bounce off top/bottom play-field walls
+        float topWall    = thisDevice.offset + circle.pxRadius;
+        float bottomWall = thisDevice.height - thisDevice.offset - circle.pxRadius;
+        if (circle.ypos > bottomWall && circle.velY > 0) circle.velY *= -1;
+        if (circle.ypos < topWall    && circle.velY < 0) circle.velY *= -1;
+
+        // Left paddle collision (host device)
+        if (thisDevice.deviceIndex == 1
+                && circle.xpos - circle.pxRadius <= paddle.xpos + paddle.halfWidth
+                && circle.xpos - circle.pxRadius >= paddle.xpos - paddle.halfWidth
+                && circle.ypos >= paddle.ypos - paddle.halfLength
+                && circle.ypos <= paddle.ypos + paddle.halfLength
+                && circle.velX < 0) {
+            circle.velX *= -1;
+            circle.velY  = (float) Math.sin(Math.PI * (circle.ypos - paddle.ypos)
+                    / (paddle.halfLength * 2)) * circle.maxVelY * 0.3f;
+            paddleFlashRemaining = FLASH_DURATION;
+        }
+
+        // Right paddle collision (client device)
+        if (thisDevice.deviceIndex == PLAYER_COUNT
+                && circle.xpos + circle.pxRadius >= paddle.xpos - paddle.halfWidth
+                && circle.xpos + circle.pxRadius <= paddle.xpos + paddle.halfWidth
+                && circle.ypos >= paddle.ypos - paddle.halfLength
+                && circle.ypos <= paddle.ypos + paddle.halfLength
+                && circle.velX > 0) {
+            circle.velX *= -1;
+            circle.velY  = (float) Math.sin(Math.PI * (circle.ypos - paddle.ypos)
+                    / (paddle.halfLength * 2)) * circle.maxVelY * 0.3f;
+            paddleFlashRemaining = FLASH_DURATION;
+        }
     }
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -284,49 +284,47 @@ public class GameView extends View {
     public void draw(Canvas canvas) {
         super.draw(canvas);
 
-        // Guard: skip until onSizeChanged has given us real dimensions
-        if (thisScreen.width == 0 || thisScreen.height == 0) {
-            invalidate();
-            return;
-        }
+        // Skip until onSizeChanged has given us real dimensions
+        if (thisDevice.width == 0 || thisDevice.height == 0) { invalidate(); return; }
 
-        // Time-delta — computed once per frame, used for both physics and flash countdown
+        // Time-delta: normalize movement to REFERENCE_FPS so ball speed is identical
+        // regardless of device refresh rate (60 Hz Pixel 4a vs 144 Hz Xiaomi 13T Pro)
         long now = System.nanoTime();
         float dt = (lastFrameNanos == 0) ? (1f / REFERENCE_FPS)
                    : (now - lastFrameNanos) / 1_000_000_000f;
         lastFrameNanos = now;
         float dtScale = Math.min(dt * REFERENCE_FPS, 3f); // cap prevents tunnelling on lag spikes
 
-        float w   = thisScreen.width;
-        float h   = thisScreen.height;
-        float off = thisScreen.offset;
+        float w   = thisDevice.width;
+        float h   = thisDevice.height;
+        float off = thisDevice.offset;
 
         // Background
         canvas.drawColor(COLOR_BACKGROUND);
 
-        // Letterbox bars — only drawn when this screen is larger than the play field
+        // Dark letterbox bands on the device with the larger screen
         if (off > 0) {
-            paint.setColor(COLOR_SAFE_ZONE);
+            paint.setColor(COLOR_LETTERBOX);
             paint.setStyle(Paint.Style.FILL);
             canvas.drawRect(0, 0, w, off, paint);
             canvas.drawRect(0, h - off, w, h, paint);
         }
 
-        // ── Horizontal alignment line — helps players line up the two phones ──
-        paint.setColor(COLOR_CENTER_LINE);
+        // Horizontal dashed alignment line — helps players line up the two phones
+        paint.setColor(COLOR_ALIGN_LINE);
         float cy    = h / 2f;
-        float dashW = 20 * thisScreen.density;
-        float gapW  = 12 * thisScreen.density;
-        float lineH = 3  * thisScreen.density;
+        float dashW = 20 * thisDevice.density;
+        float gapW  = 12 * thisDevice.density;
+        float lineH = 3  * thisDevice.density;
         for (float x = 0; x < w; x += dashW + gapW) {
             canvas.drawRect(x, cy - lineH, Math.min(x + dashW, w), cy + lineH, paint);
         }
 
-        // ── Score display ────────────────────────────────────────────────
+        // Score
         paint.setColor(COLOR_SCORE);
         paint.setStyle(Paint.Style.FILL);
         paint.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
-        float scoreTextSize = Math.max(28 * thisScreen.density, 1);
+        float scoreTextSize = Math.max(28 * thisDevice.density, 1);
         paint.setTextSize(scoreTextSize);
         paint.setTextAlign(Paint.Align.CENTER);
         float scoreY = off + scoreTextSize * 1.2f;
@@ -334,76 +332,76 @@ public class GameView extends View {
         canvas.drawText(String.valueOf(scoreRight), w * 0.75f, scoreY, paint);
         paint.setTextAlign(Paint.Align.LEFT);
 
-        // ── Ball ─────────────────────────────────────────────────────────
-        if (thisScreen.HandyPosition == circle.CurrentHandy) {
+        // Ball (draw on the device that currently owns it)
+        if (thisDevice.deviceIndex == circle.ownerIndex) {
             paint.setColor(COLOR_BALL);
-            canvas.drawCircle(circle.xpos, circle.ypos, circle.radius, paint);
+            canvas.drawCircle(circle.xpos, circle.ypos, circle.pxRadius, paint);
         }
 
-        // ── Paddle ───────────────────────────────────────────────────────
-        if (thisScreen.HandyPosition == 1 || thisScreen.HandyPosition == amountPlayers) {
+        // Paddle
+        if (thisDevice.deviceIndex == 1 || thisDevice.deviceIndex == PLAYER_COUNT) {
             int paddleColor;
             if (paddleFlashRemaining > 0) {
                 paddleFlashRemaining -= dt;
                 paddleColor = Color.WHITE;
-            } else if (thisScreen.HandyPosition == 1) {
-                paddleColor = COLOR_PADDLE_LEFT;
             } else {
-                paddleColor = COLOR_PADDLE_RIGHT;
+                paddleColor = (thisDevice.deviceIndex == 1) ? COLOR_PADDLE_HOST : COLOR_PADDLE_JOIN;
             }
             paint.setColor(paddleColor);
             canvas.drawRect(
-                    paddle.xpos - paddle.width / 2,
-                    paddle.ypos - paddle.length / 2,
-                    paddle.xpos + paddle.width / 2,
-                    paddle.ypos + paddle.length / 2,
+                    paddle.xpos - paddle.halfWidth,
+                    paddle.ypos - paddle.halfLength,
+                    paddle.xpos + paddle.halfWidth,
+                    paddle.ypos + paddle.halfLength,
                     paint);
         }
 
-        // ── "TAP TO START" overlay ───────────────────────────────────────
-        if (ballStop && thisScreen.HandyPosition == circle.CurrentHandy) {
+        // "TAP TO START" hint
+        if (ballPaused && thisDevice.deviceIndex == circle.ownerIndex) {
             paint.setColor(COLOR_HINT);
             paint.setTypeface(Typeface.MONOSPACE);
-            paint.setTextSize(14 * thisScreen.density);
+            paint.setTextSize(14 * thisDevice.density);
             paint.setTextAlign(Paint.Align.CENTER);
             canvas.drawText("TAP TO START", w / 2f, h / 2f, paint);
             paint.setTextAlign(Paint.Align.LEFT);
         }
 
-        // ── Physics update (only the device that currently owns the ball) ─
-        if (thisScreen.HandyPosition == circle.CurrentHandy) {
-            circle.getSpecificValues();
+        // Physics — only runs on the device that currently owns the ball
+        if (thisDevice.deviceIndex == circle.ownerIndex) {
+            circle.applyDensity();
             paint.setColor(COLOR_BALL);
-            canvas.drawCircle(circle.xpos, circle.ypos, circle.radius, paint);
-            circle.checkHitbox();
+            canvas.drawCircle(circle.xpos, circle.ypos, circle.pxRadius, paint);
+            checkHitbox();
             circle.move(dtScale);
 
-            // Ball leaving left side
-            if (circle.xpos < 30 && circle.standardxspeed < 0
-                    && thisScreen.HandyPosition > 1) {
-                sendGateway(thisScreen.HandyPosition - 1);
-                circle.CurrentHandy--;
-            } else if (circle.xpos < 30 && circle.standardxspeed < 0
-                    && thisScreen.HandyPosition == 1) {
-                scoreRight++;
-                sendScoreUpdate();
-                resetBallLocal(1);
+            // Ball exits left edge
+            if (circle.xpos < 30 && circle.velX < 0) {
+                if (thisDevice.deviceIndex > 1) {
+                    sendGateway(thisDevice.deviceIndex - 1);
+                    circle.ownerIndex--;
+                } else {
+                    // Left wall — right player scores
+                    scoreRight++;
+                    sendScoreUpdate();
+                    resetBall(1);
+                }
             }
 
-            // Ball leaving right side
-            if (circle.xpos > w - 30 && circle.standardxspeed > 0
-                    && thisScreen.HandyPosition < amountPlayers) {
-                sendGateway(thisScreen.HandyPosition + 1);
-                circle.CurrentHandy++;
-            } else if (circle.xpos > w - 30 && circle.standardxspeed > 0
-                    && thisScreen.HandyPosition == amountPlayers) {
-                scoreLeft++;
-                sendScoreUpdate();
-                resetBallLocal(-1);
+            // Ball exits right edge
+            if (circle.xpos > w - 30 && circle.velX > 0) {
+                if (thisDevice.deviceIndex < PLAYER_COUNT) {
+                    sendGateway(thisDevice.deviceIndex + 1);
+                    circle.ownerIndex++;
+                } else {
+                    // Right wall — left player scores
+                    scoreLeft++;
+                    sendScoreUpdate();
+                    resetBall(-1);
+                }
             }
         }
 
-        // ── Scanline effect ───────────────────────────────────────────────
+        // Retro scanline overlay (drawn last)
         paint.setColor(COLOR_SCANLINE);
         for (float y = 0; y < h; y += 4) {
             canvas.drawRect(0, y, w, y + 2, paint);
@@ -414,29 +412,29 @@ public class GameView extends View {
 
     // ─────────────────────────────────────────────────────────────────────────
 
-    private void sendGateway(int targetPos) {
-        MainActivity.sendToSendRecive(
-                "GtwMsg" + targetPos
+    private void sendGateway(int targetDeviceIndex) {
+        MainActivity.sendMessage(
+                "GtwMsg" + targetDeviceIndex
                         + "*" + circle.xpos
-                        + ">" + ((circle.ypos - thisScreen.offset) / thisScreen.adjustedHeight)
-                        + "<" + circle.standardxspeed
-                        + "#" + circle.standardyspeed
-                        + "~" + circle.standardmaxyspeed);
+                        + ">" + ((circle.ypos - thisDevice.offset) / thisDevice.adjustedHeight)
+                        + "<" + circle.velX
+                        + "#" + circle.velY
+                        + "~" + circle.maxVelY);
     }
 
-    private void resetBallLocal(int directionSign) {
-        circle.xpos           = directionSign > 0 ? thisScreen.width * 0.25f : thisScreen.width * 0.75f;
-        circle.ypos           = thisScreen.offset + thisScreen.adjustedHeight / 2f;
-        circle.standardxspeed = 0;
-        circle.standardyspeed = 0;
-        circle.direction      = directionSign;
-        ballStop              = true;
-        waitingForFingerUp    = true;
-        lastFrameNanos        = 0; // reset so the first move after tap isn't a giant leap
+    private void resetBall(int launchDirection) {
+        circle.xpos      = launchDirection > 0 ? thisDevice.width * 0.25f : thisDevice.width * 0.75f;
+        circle.ypos      = thisDevice.offset + thisDevice.adjustedHeight / 2f;
+        circle.velX      = 0;
+        circle.velY      = 0;
+        circle.direction = launchDirection;
+        ballPaused       = true;
+        requireLift      = true;
+        lastFrameNanos   = 0;
     }
 
     private void sendScoreUpdate() {
-        MainActivity.sendToSendRecive("ScoreM" + scoreLeft + ">" + scoreRight);
+        MainActivity.sendMessage("ScoreM" + scoreLeft + ">" + scoreRight);
     }
 
     @Override
@@ -444,24 +442,26 @@ public class GameView extends View {
         int action = event.getActionMasked();
 
         if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
-            waitingForFingerUp = false;
+            requireLift = false;
         }
 
+        // Launch ball on first finger-down after a stop (never re-launch with the same touch)
         if (action == MotionEvent.ACTION_DOWN
-                && thisScreen.HandyPosition == circle.CurrentHandy
-                && ballStop && !waitingForFingerUp) {
-            ballStop       = false;
-            lastFrameNanos = 0; // fresh timer for a clean first move
-            circle.standardxspeed = circle.direction > 0 ? 6 : -6;
-            circle.standardyspeed = 3;
+                && thisDevice.deviceIndex == circle.ownerIndex
+                && ballPaused && !requireLift) {
+            ballPaused     = false;
+            lastFrameNanos = 0;
+            circle.velX    = circle.direction > 0 ? 6 : -6;
+            circle.velY    = 3;
         }
 
-        if ((thisScreen.HandyPosition == 1 || thisScreen.HandyPosition == amountPlayers)
-                && event.getY() < paddle.ypos + paddle.length / 2 + paddle.adjust
-                && event.getY() > paddle.ypos - paddle.length / 2 - paddle.adjust) {
+        // Move paddle to follow finger (within a touch-slop zone around the paddle)
+        if ((thisDevice.deviceIndex == 1 || thisDevice.deviceIndex == PLAYER_COUNT)
+                && event.getY() < paddle.ypos + paddle.halfLength + paddle.touchSlop
+                && event.getY() > paddle.ypos - paddle.halfLength - paddle.touchSlop) {
             paddle.ypos = event.getY();
-            float minY = thisScreen.offset + paddle.length / 2;
-            float maxY = thisScreen.height - thisScreen.offset - paddle.length / 2;
+            float minY = thisDevice.offset + paddle.halfLength;
+            float maxY = thisDevice.height - thisDevice.offset - paddle.halfLength;
             if (paddle.ypos < minY) paddle.ypos = minY;
             if (paddle.ypos > maxY) paddle.ypos = maxY;
         }

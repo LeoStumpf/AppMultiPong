@@ -71,7 +71,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void leaveGame() {
-        MainActivity.sendToSendRecive("QuitMsg");
+        MainActivity.sendMessage("QuitMsg");
         finish();
     }
 }
