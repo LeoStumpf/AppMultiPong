@@ -1,0 +1,21 @@
+# Build outputs
+/build/
+app/build/
+*.apk
+*.aab
+*.dex
+
+# Gradle cache
+.gradle/
+
+# Machine-specific SDK path — each developer sets their own in local.properties
+local.properties
+
+# IDE
+.idea/
+*.iml
+.DS_Store
+
+# Keystore files
+*.jks
+*.keystore

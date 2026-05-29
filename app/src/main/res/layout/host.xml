@@ -13,7 +13,7 @@
         android:layout_marginTop="64dp"
         android:fontFamily="monospace"
         android:letterSpacing="0.2"
-        android:text="HOSTING"
+        android:text="@string/btn_host"
         android:textColor="@color/neon_cyan"
         android:textSize="28sp"
         android:textStyle="bold"
@@ -55,23 +55,31 @@
         app:layout_constraintTop_toBottomOf="@+id/host_nfc_hint" />
 
     <Button
-        android:id="@+id/game_Start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="64dp"
-        android:text="@string/btn_start_game"
+        android:id="@+id/host_btn_cancel"
+        style="@style/RetroButton"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="32dp"
+        android:text="@string/btn_cancel"
+        android:textColor="@color/border_grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Hidden placeholder — ID kept for backward compatibility -->
-    <ListView
-        android:id="@+id/Player_connected"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="gone"
+    <TextView
+        android:id="@+id/host_device_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="monospace"
+        android:gravity="center"
+        android:textColor="@color/neon_cyan"
+        android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/host_progress" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

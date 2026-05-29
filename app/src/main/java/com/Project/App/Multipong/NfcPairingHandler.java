@@ -5,18 +5,18 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.NdefMessage;
-import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Build;
 import android.os.Parcelable;
 import android.util.Log;
 
 /**
- * Handles NFC tap-to-pair: pushes local Bluetooth MAC via NDEF and receives
- * the remote device's MAC when two phones are tapped together.
+ * Handles NFC receive-side pairing: uses foreground dispatch to intercept
+ * an NDEF message carrying the host's Bluetooth MAC.
  *
- * Note: setNdefPushMessage() is deprecated in API 29 (Android Beam removed on Pixel),
- * but remains functional on many devices. Bluetooth scan is the fallback.
+ * Android Beam (setNdefPushMessage) was removed in API 34 and no longer
+ * compiles. Primary pairing is Bluetooth scan; NFC is an optional shortcut
+ * for devices that write their MAC to a physical NFC tag or use HCE.
  */
 public class NfcPairingHandler {
 
@@ -44,18 +44,12 @@ public class NfcPairingHandler {
     public boolean isEnabled()   { return nfcAdapter != null && nfcAdapter.isEnabled(); }
 
     /** Call when entering pairing mode. Also call from onResume() to re-register after interruptions. */
-    @SuppressWarnings("deprecation")
     public void enable(String btMac) {
         localMac = btMac;
         active   = true;
         if (nfcAdapter == null || !nfcAdapter.isEnabled()) return;
 
-        // Push our BT MAC so the other device can read it
-        NdefRecord record  = NdefRecord.createMime(NFC_MIME, btMac.getBytes());
-        NdefMessage msg    = new NdefMessage(new NdefRecord[]{record});
-        nfcAdapter.setNdefPushMessage(msg, activity);
-
-        // Register to receive the other device's NDEF
+        // Register foreground dispatch to receive an NDEF with the remote MAC
         int flags = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
                 ? PendingIntent.FLAG_MUTABLE : 0;
         PendingIntent pi = PendingIntent.getActivity(
@@ -66,7 +60,7 @@ public class NfcPairingHandler {
         nfcAdapter.enableForegroundDispatch(activity, pi,
                 new IntentFilter[]{new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED)}, null);
 
-        Log.i(TAG, "NfcPairingHandler: enabled, pushing MAC " + btMac);
+        Log.i(TAG, "NfcPairingHandler: foreground dispatch enabled");
     }
 
     /** Re-enable after onResume — no-op if not previously activated. */
@@ -74,12 +68,10 @@ public class NfcPairingHandler {
         if (active && localMac != null) enable(localMac);
     }
 
-    @SuppressWarnings("deprecation")
     public void disable() {
         active = false;
         if (nfcAdapter == null) return;
         try {
-            nfcAdapter.setNdefPushMessage(null, activity);
             nfcAdapter.disableForegroundDispatch(activity);
         } catch (IllegalStateException ignored) {
             // Activity may not be in foreground; safe to ignore

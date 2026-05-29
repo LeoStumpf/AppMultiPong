@@ -21,7 +21,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -50,14 +49,18 @@ public class MainActivity extends AppCompatActivity {
 
     // ── Shared game state (accessed by GameView) ────────────────────────────
     public static SendReceive sendReceive;
-    public static boolean IsHost  = false;
-    public static boolean IsReady = false;
+    public static boolean IsHost = false;
     public static int x_display;
     public static int y_display;
 
+    // Sa_Dim received before GameView.screen[] is allocated (lobby phase)
+    public static int   pendingSaDimPos     = -1;
+    public static float pendingSaDimWidth;
+    public static float pendingSaDimHeight;
+    public static float pendingSaDimDensity;
+
     // ── UI fields ───────────────────────────────────────────────────────────
-    ImageButton buttonServer, buttonJoin;
-    Button btnGameStart, btnClientReady;
+    Button buttonServer, buttonJoin;
     ListView joinList;
 
     // ── Bluetooth ────────────────────────────────────────────────────────────
@@ -122,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         enableImmersiveFullscreen();
 
-        sendReceive      = new SendReceive(MESSAGE_READ, handler);
+        sendReceive       = createSendReceive();
         nfcPairingHandler = new NfcPairingHandler(this, this::onNfcPaired);
 
         BluetoothManager bm = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
@@ -144,6 +147,8 @@ public class MainActivity extends AppCompatActivity {
             currentMode = Mode.JOIN;
             ensureBluetoothThenContinue();
         });
+
+        findViewById(R.id.main_btn_exit).setOnClickListener(v -> finish());
 
         checkAndRequestPermissions();
     }
@@ -201,19 +206,26 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "startHostMode");
         setContentView(R.layout.host);
 
-        // "Start Game" button — host sends All_start signal
-        btnGameStart = findViewById(R.id.game_Start);
-        btnGameStart.setOnClickListener(v -> {
-            sendToSendRecive("All_start");
-            startActivity(new Intent(this, GameActivity.class));
-        });
+        findViewById(R.id.host_btn_cancel).setOnClickListener(v -> returnToMainMenu());
+
+        // Show own BT name + address so the client knows which device to tap
+        TextView deviceInfo = findViewById(R.id.host_device_info);
+        if (deviceInfo != null) {
+            @SuppressWarnings("MissingPermission")
+            String btName = bluetoothAdapter.getName();
+            @SuppressWarnings("MissingPermission")
+            String btAddr = bluetoothAdapter.getAddress();
+            deviceInfo.setText(
+                    "Name:  " + (btName != null ? btName : "Unknown") + "\n"
+                    + "Addr:  " + btAddr);
+        }
 
         // Request discoverability so clients can find us via BT scan
         Intent disc = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
         disc.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
         discoverableLauncher.launch(disc);
 
-        // Enable NFC push of our BT MAC so a client can skip scanning
+        // Enable NFC receive so a client tap can skip scanning
         @SuppressWarnings("MissingPermission")
         String localMac = bluetoothAdapter.getAddress();
         nfcPairingHandler.enable(localMac);
@@ -236,6 +248,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "startJoinMode");
         setContentView(R.layout.client);
         joinList = findViewById(R.id.peerListViewC);
+        findViewById(R.id.client_btn_cancel).setOnClickListener(v -> returnToMainMenu());
 
         discoveredDevices.clear();
         deviceListAdapter = new ArrayAdapter<String>(this,
@@ -318,20 +331,53 @@ public class MainActivity extends AppCompatActivity {
         nfcPairingHandler.disable();
         unregisterBtReceiver();
 
-        setContentView(R.layout.client_lobby);
-        setupLobbySeekBars();
-
-        if (!IsHost) {
-            btnClientReady = (Button) findViewById(R.id.Lobby_Switch_Ready);
-            btnClientReady.setOnClickListener(v -> sendToSendRecive("ClientIsReady"));
+        if (IsHost) {
+            setContentView(R.layout.client_lobby);
+            setupLobbySeekBars();
+            ((Button) findViewById(R.id.Lobby_Switch_Ready)).setOnClickListener(v -> {
+                sendToSendRecive("All_start");
+                startActivity(new Intent(this, GameActivity.class));
+            });
+            ((Button) findViewById(R.id.Lobby_BTN_Disonnect)).setOnClickListener(v ->
+                    returnToMainMenu());
+        } else {
+            setContentView(R.layout.lobby_client);
+            ((Button) findViewById(R.id.lobby_client_btn_leave)).setOnClickListener(v ->
+                    returnToMainMenu());
         }
 
         // Send screen dimensions to the other device so both can compute the play field
         String saMsg = "Sa_Dim" + x_display + ">" + y_display + "#"
-                + (int) getResources().getDisplayMetrics().density + "<"
+                + getResources().getDisplayMetrics().density + "<"
                 + (IsHost ? 1 : 2);
         sendToSendRecive(saMsg);
         Log.i(TAG, "onConnectionEstablished: sent " + saMsg);
+    }
+
+    private void returnToMainMenu() {
+        Log.i(TAG, "returnToMainMenu");
+        sendReceive.disconnect();
+        if (btServerClass != null) { btServerClass.cancel(); btServerClass = null; }
+        if (btClientClass != null) { btClientClass.cancel(); btClientClass = null; }
+        unregisterBtReceiver();
+        nfcPairingHandler.disable();
+        IsHost          = false;
+        currentMode     = Mode.NONE;
+        pendingSaDimPos = -1;
+        sendReceive     = createSendReceive();
+        recreate();
+    }
+
+    private void handleRemoteDisconnect() {
+        Log.i(TAG, "handleRemoteDisconnect");
+        GameActivity.finishIfActive();
+        returnToMainMenu();
+    }
+
+    private SendReceive createSendReceive() {
+        SendReceive sr = new SendReceive(MESSAGE_READ, handler);
+        sr.onDisconnect = this::handleRemoteDisconnect;
+        return sr;
     }
 
     private void setupLobbySeekBars() {
@@ -362,11 +408,9 @@ public class MainActivity extends AppCompatActivity {
         if (message.equals("All_start")) {
             startActivity(new Intent(this, GameActivity.class));
 
-        } else if (message.equals("ClientIsReady")) {
-            Log.i(TAG, "filterservice: client is ready");
-
-        } else if (message.equals("Letsegooo")) {
-            IsReady = true;
+        } else if (message.equals("QuitMsg")) {
+            GameActivity.finishIfActive();
+            returnToMainMenu();
 
         } else if (message.equals("errore")) {
             Log.i(TAG, "filterservice: error signal");
@@ -376,11 +420,10 @@ public class MainActivity extends AppCompatActivity {
 
             if (command.equals("GtwMsg")) {
                 int targetPos = Integer.parseInt(message.substring(6, message.lastIndexOf("*")));
-                if (targetPos < 1)                       GameView.circle.Point_Scored('r');
-                if (targetPos > GameView.amountPlayers)  GameView.circle.Point_Scored('l');
                 if (targetPos == GameView.thisScreen.HandyPosition) {
                     GameView.circle.CurrentHandy   = GameView.thisScreen.HandyPosition;
-                    GameView.circle.ypos           = Float.parseFloat(message.substring(
+                    GameView.circle.ypos           = GameView.thisScreen.offset
+                            + Float.parseFloat(message.substring(
                             message.lastIndexOf(">") + 1, message.lastIndexOf("<")))
                             * GameView.thisScreen.adjustedHeight;
                     GameView.circle.standardxspeed = Float.parseFloat(message.substring(
@@ -413,16 +456,35 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
+            if (command.equals("ScoreM")) {
+                String payload = message.substring(6);
+                int sep = payload.indexOf('>');
+                if (sep >= 0) {
+                    GameView.scoreLeft  = Integer.parseInt(payload.substring(0, sep));
+                    GameView.scoreRight = Integer.parseInt(payload.substring(sep + 1));
+                }
+            }
+
             if (command.equals("Sa_Dim")) {
                 String saWidth   = message.substring(6, message.lastIndexOf(">"));
                 String saHeight  = message.substring(message.lastIndexOf(">") + 1, message.lastIndexOf("#"));
                 String saDensity = message.substring(message.lastIndexOf("#") + 1, message.lastIndexOf("<"));
                 String saPos     = message.substring(message.lastIndexOf("<") + 1);
                 int pos = Integer.parseInt(saPos);
-                GameView.screen[pos - 1].width        = Float.parseFloat(saWidth);
-                GameView.screen[pos - 1].height       = Float.parseFloat(saHeight);
-                GameView.screen[pos - 1].density      = Integer.parseInt(saDensity);
-                GameView.screen[pos - 1].HandyPosition = pos;
+                if (GameView.screen != null && pos > 0 && pos <= GameView.screen.length) {
+                    GameView.screen[pos - 1].width         = Float.parseFloat(saWidth);
+                    GameView.screen[pos - 1].height        = Float.parseFloat(saHeight);
+                    GameView.screen[pos - 1].density       = Float.parseFloat(saDensity);
+                    GameView.screen[pos - 1].HandyPosition = pos;
+                    // Recalculate play-field bounds now that a peer's dimensions updated
+                    GameView.recomputeAdjustedHeight();
+                } else {
+                    // GameView not started yet — buffer; GameView.onSizeChanged will apply it
+                    pendingSaDimPos     = pos;
+                    pendingSaDimWidth   = Float.parseFloat(saWidth);
+                    pendingSaDimHeight  = Float.parseFloat(saHeight);
+                    pendingSaDimDensity = Float.parseFloat(saDensity);
+                }
                 Log.i(TAG, "filterservice: Sa_Dim pos=" + pos + " w=" + saWidth + " h=" + saHeight);
             }
         }

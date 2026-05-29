@@ -2,6 +2,7 @@ package com.Project.App.Multipong;
 
 import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import java.io.IOException;
@@ -16,6 +17,8 @@ public class SendReceive extends Thread {
 
     static int MESSAGE_READ = 1;
     public Handler handler;
+    /** Called on the main thread when the connection drops unexpectedly. */
+    public Runnable onDisconnect;
 
     private static final String TAG = "MultiPong";
 
@@ -38,7 +41,12 @@ public class SendReceive extends Thread {
     }
 
     public void disconnect() {
+        onDisconnect = null;   // prevent re-entrant callbacks after intentional close
         running = false;
+        try {
+            if (inputStream  != null) inputStream.close();
+            if (outputStream != null) outputStream.close();
+        } catch (IOException ignored) {}
     }
 
     @Override
@@ -59,6 +67,9 @@ public class SendReceive extends Thread {
             } catch (IOException e) {
                 Log.e(TAG, "SendReceive: read error, stopping", e);
                 running = false;
+                if (onDisconnect != null) {
+                    new Handler(Looper.getMainLooper()).post(onDisconnect);
+                }
             }
         }
     }

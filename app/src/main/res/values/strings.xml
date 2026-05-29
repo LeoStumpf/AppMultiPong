@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MultiPong</string>
-    <string name="btn_host">HOST</string>
-    <string name="btn_join">JOIN</string>
+    <string name="btn_host">CREATE GAME</string>
+    <string name="btn_join">JOIN GAME</string>
     <string name="btn_start_game">START GAME</string>
-    <string name="btn_ready">READY</string>
+    <string name="btn_cancel">CANCEL</string>
+    <string name="btn_exit">EXIT</string>
+    <string name="lobby_waiting">Waiting for host to start…</string>
     <string name="btn_leave">LEAVE</string>
     <string name="label_ball_speed">BALL SPEED</string>
     <string name="label_speed_gain">SPEED GAIN</string>

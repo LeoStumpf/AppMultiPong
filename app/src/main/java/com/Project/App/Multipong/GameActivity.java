@@ -2,6 +2,10 @@ package com.Project.App.Multipong;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,14 +16,19 @@ import androidx.core.view.WindowInsetsControllerCompat;
 public class GameActivity extends AppCompatActivity {
 
     private static final String TAG = "MultiPong";
+    static GameActivity activeInstance;
+
+    static void finishIfActive() {
+        if (activeInstance != null) activeInstance.finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        activeInstance = this;
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        // Enable immersive fullscreen (replaces deprecated setSystemUiVisibility)
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         WindowInsetsControllerCompat controller =
                 WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
@@ -31,6 +40,38 @@ public class GameActivity extends AppCompatActivity {
 
         Log.i(TAG, "GameActivity: onCreate");
 
-        setContentView(new GameView(this));
+        GameView gameView = new GameView(this);
+
+        // Small leave button pinned to top-right corner
+        Button leaveBtn = new Button(this);
+        leaveBtn.setText("✕ LEAVE");
+        leaveBtn.setTextSize(11f);
+        leaveBtn.setAlpha(0.7f);
+        leaveBtn.setOnClickListener(v -> leaveGame());
+
+        FrameLayout frame = new FrameLayout(this);
+        frame.addView(gameView, new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.gravity = Gravity.TOP | Gravity.END;
+        lp.setMargins(0, 48, 16, 0);
+        frame.addView(leaveBtn, lp);
+
+        setContentView(frame);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (activeInstance == this) activeInstance = null;
+    }
+
+    private void leaveGame() {
+        MainActivity.sendToSendRecive("QuitMsg");
+        finish();
     }
 }
