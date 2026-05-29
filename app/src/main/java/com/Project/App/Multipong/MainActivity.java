@@ -304,6 +304,8 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "onConnectionEstablished: isHost=" + isHost);
         nfcHandler.disable();
         unregisterBtReceiver();
+        View pb = findViewById(R.id.host_progress);
+        if (pb != null) pb.setVisibility(View.GONE);
 
         if (isHost) {
             setContentView(R.layout.client_lobby);
@@ -311,6 +313,12 @@ public class MainActivity extends AppCompatActivity {
             bindSeekBar(R.id.Lobby_SeekBar_VelocityGain,  R.id.Lobby_TV_GainVal);
             bindSeekBar(R.id.Lobby_SeekBar_EndPoints,      R.id.Lobby_TV_PointsVal);
             ((Button) findViewById(R.id.Lobby_Switch_Ready)).setOnClickListener(v -> {
+                int startVel  = ((SeekBar) findViewById(R.id.Lobby_SeekBar_StartVelocity)).getProgress();
+                int velGain   = ((SeekBar) findViewById(R.id.Lobby_SeekBar_VelocityGain)).getProgress();
+                int endPoints = ((SeekBar) findViewById(R.id.Lobby_SeekBar_EndPoints)).getProgress();
+                String settMsg = "SettMsg" + startVel + ">" + velGain + ">" + endPoints;
+                sendMessage(settMsg);
+                GameView.applySettings(startVel, velGain, endPoints);
                 sendMessage("All_start");
                 startActivity(new Intent(this, GameActivity.class));
             });
@@ -344,6 +352,7 @@ public class MainActivity extends AppCompatActivity {
     private void onPeerDisconnected() {
         Log.i(TAG, "onPeerDisconnected");
         GameActivity.finishIfActive();
+        Toast.makeText(this, "Connection lost", Toast.LENGTH_SHORT).show();
         returnToMainMenu();
     }
 
@@ -354,13 +363,33 @@ public class MainActivity extends AppCompatActivity {
     void handleMessage(String msg) {
         Log.i(TAG, "handleMessage: " + msg);
 
+        if (msg.startsWith("SettMsg")) {
+            String[] parts = msg.substring(7).split(">");
+            if (parts.length == 3) {
+                try {
+                    GameView.applySettings(
+                            Integer.parseInt(parts[0]),
+                            Integer.parseInt(parts[1]),
+                            Integer.parseInt(parts[2]));
+                } catch (NumberFormatException ignored) {}
+            }
+            return;
+        }
+
         if (msg.equals("All_start")) {
             startActivity(new Intent(this, GameActivity.class));
             return;
         }
         if (msg.equals("QuitMsg")) {
             GameActivity.finishIfActive();
+            Toast.makeText(this, "Opponent left the game", Toast.LENGTH_SHORT).show();
             returnToMainMenu();
+            return;
+        }
+
+        if (msg.startsWith("GameEnd") && msg.length() == 8) {
+            boolean leftWon = msg.charAt(7) == 'L';
+            if (GameView.activeInstance != null) GameView.activeInstance.applyGameEnd(leftWon);
             return;
         }
         if (msg.length() < 6) return;

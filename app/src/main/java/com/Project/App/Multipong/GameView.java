@@ -37,11 +37,24 @@ public class GameView extends View {
     private static final int COLOR_SCANLINE    = 0x18000000;
 
     // ── Shared state accessed by MainActivity ──────────────────────────────────
+    public static GameView activeInstance; // set in constructor; used by MainActivity to call applyGameEnd
     public static int    scoreLeft  = 0;
     public static int    scoreRight = 0;
     public static Circle circle;
     public static Screen  thisDevice;  // this phone's screen data
     public static Screen[]  screens;   // all connected phones (indexed 0..PLAYER_COUNT-1)
+
+    // ── Lobby settings (applied via applySettings() before game starts) ────────
+    // Defaults match the SeekBar initial values in client_lobby.xml (progress=3).
+    private static int configStartVel  = 3; // 1–10: initial ball speed
+    private static int configVelGain   = 3; // 0–10: speed gain after each hit
+    private static int configEndPoints = 3; // 0=unlimited, else win score
+
+    public static void applySettings(int startVel, int velGain, int endPoints) {
+        configStartVel  = Math.max(1, startVel);
+        configVelGain   = velGain;
+        configEndPoints = endPoints;
+    }
 
     // ── Per-instance fields ────────────────────────────────────────────────────
     private Paddle paddle;
@@ -51,6 +64,8 @@ public class GameView extends View {
     private boolean requireLift          = false; // wait for finger-up before allowing next launch
     private float   paddleFlashRemaining = 0f;
     private long    lastFrameNanos       = 0;
+    private boolean gameOver             = false;
+    private boolean localPlayerWon       = false; // only valid when gameOver=true
 
     // Space-theme bitmap assets
     private Bitmap   bitmapBackground;    // night sky, scaled to screen in onSizeChanged
@@ -73,6 +88,7 @@ public class GameView extends View {
 
     public GameView(Context context) {
         super(context);
+        activeInstance = this;
 
         paint = new Paint();
         paint.setAntiAlias(true);
@@ -125,11 +141,11 @@ public class GameView extends View {
         }
 
         circle = new Circle();
-        circle.velX      = 0;
-        circle.velY      = 0;
-        circle.maxVelY   = 20;
+        circle.velX       = 0;
+        circle.velY       = 0;
+        circle.maxVelY    = 10 + configVelGain * 2f; // scales with lobby setting
         circle.baseRadius = 10;
-        circle.direction = 1;
+        circle.direction  = 1;
         circle.ownerIndex = 1;
 
         paddle = new Paddle();
@@ -300,7 +316,7 @@ public class GameView extends View {
                 && circle.ypos >= paddle.ypos - paddle.halfLength
                 && circle.ypos <= paddle.ypos + paddle.halfLength
                 && circle.velX < 0) {
-            circle.velX *= -1;
+            circle.velX = -(Math.abs(circle.velX) + configVelGain * 0.15f);
             circle.velY  = (float) Math.sin(Math.PI * (circle.ypos - paddle.ypos)
                     / (paddle.halfLength * 2)) * circle.maxVelY * 0.3f;
             paddleFlashRemaining = FLASH_DURATION;
@@ -313,7 +329,7 @@ public class GameView extends View {
                 && circle.ypos >= paddle.ypos - paddle.halfLength
                 && circle.ypos <= paddle.ypos + paddle.halfLength
                 && circle.velX > 0) {
-            circle.velX *= -1;
+            circle.velX = Math.abs(circle.velX) + configVelGain * 0.15f;
             circle.velY  = (float) Math.sin(Math.PI * (circle.ypos - paddle.ypos)
                     / (paddle.halfLength * 2)) * circle.maxVelY * 0.3f;
             paddleFlashRemaining = FLASH_DURATION;
@@ -416,9 +432,26 @@ public class GameView extends View {
             }
         }
 
+        // Game-over overlay (drawn over everything; tap returns to menu)
+        if (gameOver) {
+            paint.setColor(0xCC000000);
+            canvas.drawRect(0, 0, w, h, paint);
+            paint.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
+            paint.setTextAlign(Paint.Align.CENTER);
+            paint.setTextSize(32 * thisDevice.density);
+            paint.setColor(localPlayerWon ? 0xFFFFD700 : 0xFFE8E8E8);
+            canvas.drawText(localPlayerWon ? "YOU WIN" : "OPPONENT WINS", w / 2f, h / 2f - 20 * thisDevice.density, paint);
+            paint.setTextSize(13 * thisDevice.density);
+            paint.setColor(COLOR_HINT);
+            canvas.drawText("tap to return", w / 2f, h / 2f + 20 * thisDevice.density, paint);
+            paint.setTextAlign(Paint.Align.LEFT);
+            invalidate();
+            return; // skip physics
+        }
+
         // "TAP TO START" hint
         if (ballPaused && thisDevice.deviceIndex == circle.ownerIndex) {
-            paint.setColor(COLOR_HINT);
+            paint.setColor(0xCCE8E8E8);
             paint.setTypeface(Typeface.MONOSPACE);
             paint.setTextSize(14 * thisDevice.density);
             paint.setTextAlign(Paint.Align.CENTER);
@@ -473,6 +506,7 @@ public class GameView extends View {
                     // Left wall — right player scores
                     scoreRight++;
                     sendScoreUpdate();
+                    if (checkWin()) return;
                     resetBall(1);
                 }
             }
@@ -486,6 +520,7 @@ public class GameView extends View {
                     // Right wall — left player scores
                     scoreLeft++;
                     sendScoreUpdate();
+                    if (checkWin()) return;
                     resetBall(-1);
                 }
             }
@@ -527,6 +562,30 @@ public class GameView extends View {
         MainActivity.sendMessage("ScoreM" + scoreLeft + ">" + scoreRight);
     }
 
+    // Returns true if the game just ended (caller should skip resetBall).
+    private boolean checkWin() {
+        if (configEndPoints == 0) return false;
+        boolean leftWins  = scoreLeft  >= configEndPoints;
+        boolean rightWins = scoreRight >= configEndPoints;
+        if (!leftWins && !rightWins) return false;
+
+        gameOver = true;
+        ballPaused = true;
+        // Host (deviceIndex=1) owns the left score; client owns the right.
+        localPlayerWon = (thisDevice.deviceIndex == 1) ? leftWins : rightWins;
+
+        // Tell the peer; payload encodes which side won so both devices draw correctly.
+        MainActivity.sendMessage("GameEnd" + (leftWins ? "L" : "R"));
+        return true;
+    }
+
+    /** Called from MainActivity when a GameEnd message arrives on the non-scoring device. */
+    public void applyGameEnd(boolean leftWon) {
+        gameOver = true;
+        ballPaused = true;
+        localPlayerWon = (thisDevice.deviceIndex == 1) ? leftWon : !leftWon;
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int action = event.getActionMasked();
@@ -535,14 +594,22 @@ public class GameView extends View {
             requireLift = false;
         }
 
+        // Tap anywhere on game-over overlay to leave
+        if (gameOver && action == MotionEvent.ACTION_DOWN) {
+            MainActivity.sendMessage("QuitMsg");
+            GameActivity.finishIfActive();
+            return true;
+        }
+
         // Launch ball on first finger-down after a stop (never re-launch with the same touch)
         if (action == MotionEvent.ACTION_DOWN
                 && thisDevice.deviceIndex == circle.ownerIndex
                 && ballPaused && !requireLift) {
             ballPaused     = false;
             lastFrameNanos = 0;
-            circle.velX    = circle.direction > 0 ? 6 : -6;
-            circle.velY    = 3;
+            float spd = 2 + configStartVel * 0.8f; // configStartVel 1–10 → ~2.8–10 dp/frame
+            circle.velX = circle.direction > 0 ? spd : -spd;
+            circle.velY = spd * 0.4f;
         }
 
         // Move paddle to follow finger (within a touch-slop zone around the paddle)

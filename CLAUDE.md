@@ -5,7 +5,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-./gradlew build                  # Build debug + release APKs
+./build.sh                       # Build signed release APK + AAB (requires keystore.properties)
+./build.sh debug                 # Build debug APK
 ./gradlew assembleDebug          # Build debug APK only
 ./gradlew installDebug           # Install debug APK to connected device
 ./gradlew clean                  # Clean build artifacts
@@ -15,35 +16,42 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Architecture
 
-Two-phase runtime: **WiFi P2P setup** (MainActivity) → **Game** (GameActivity/GameView).
+Two-phase runtime: **Bluetooth setup** (MainActivity) → **Game** (GameActivity/GameView).
 
 ### Java source: `app/src/main/java/com/Project/App/Multipong/`
 
 | File | Role |
 |------|------|
-| `MainActivity.java` | WiFi Direct manager: peer discovery, Host/Client selection, connection lifecycle, incoming message routing |
-| `WifiDirectBroadcastReceiver.java` | BroadcastReceiver for WiFi P2P state/peer/connection events; delegates back to MainActivity |
-| `ServerClass.java` | Host-side: opens ServerSocket on port 8888, hands off accepted socket to SendReceive |
-| `ClientClass.java` | Client-side: connects to host IP via socket, hands off to SendReceive |
-| `SendReceive.java` | Async thread for reading/writing raw bytes over the socket |
+| `MainActivity.java` | Bluetooth manager: peer discovery, Host/Client selection, connection lifecycle, incoming message routing |
+| `BtServerClass.java` | Host-side: opens BluetoothServerSocket, hands off accepted socket to SendReceive |
+| `BtClientClass.java` | Client-side: connects to host by Bluetooth MAC, hands off to SendReceive |
+| `BtDiscoveryReceiver.java` | BroadcastReceiver for Bluetooth scan results |
+| `BtConstants.java` | Shared RFCOMM service UUID |
+| `NfcPairingHandler.java` | NFC foreground dispatch — delivers host MAC to client on tap |
+| `SendReceive.java` | Async thread for reading/writing raw bytes over the Bluetooth socket |
 | `GameActivity.java` | Thin container; sets fullscreen portrait, hosts GameView |
-| `GameView.java` | Game loop (`invalidate()` → `draw(Canvas)`), ball physics, paddle touch input, collision detection, scoring; inner classes `Circle`, `Screen`, `Paddle` |
+| `GameView.java` | Game loop (`invalidate()` → `draw(Canvas)`), ball physics, paddle touch input, collision detection, scoring, bitmap rendering; inner classes `Circle`, `Screen`, `Paddle` |
 
-### Message protocol (string prefixes over socket)
+### Message protocol (string prefixes over Bluetooth socket)
 
 | Prefix | Meaning |
 |--------|---------|
 | `GtwMsg` | Ball crossing device boundary (gateway handoff) |
-| `NBAMsg` | Spawn new ball |
 | `Sa_Dim` | Share screen dimensions |
+| `SettMsg` | Lobby settings (startVel, velGain, endPoints) sent by host on game start |
+| `GameEnd` | Game over — payload indicates which side won |
 | `All_start` | Start game signal |
-| `Letsegooo` | Player ready |
+| `ScoreM` | Score update |
+| `QuitMsg` | Player left |
 
 ### Layouts: `app/src/main/res/layout/`
-`activity_main.xml` (menu) → `host.xml` / `client.xml` → `client_lobby.xml` → `activity_game.xml`
+`activity_main.xml` (menu) → `host.xml` / `client.xml` → `client_lobby.xml` / `lobby_client.xml` → game (built in code by GameActivity)
+
+### Source assets: `assets-source/`
+Original artwork files (GIF, PNG) used to generate the drawable resources.
 
 ## Conventions
 
-- Comments and some UI strings are in German.
-- SpongyCastle (`com.madgag.spongycastle`) is included as a dependency but encryption is not yet implemented.
-- `amountPlayers` in GameView is wired for future expansion beyond 2 devices.
+- All comments and UI strings are in English.
+- `amountPlayers` / `PLAYER_COUNT` in GameView is wired for future expansion beyond 2 devices.
+- Application ID: `com.spacehats.multipong` (Play Store). Java namespace remains `com.Project.App.Multipong`.

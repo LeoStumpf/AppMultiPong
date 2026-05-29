@@ -157,10 +157,12 @@ The game loop runs at the native screen refresh rate. Ball speed is normalised t
 | File | Role |
 |------|------|
 | `MainActivity.java` | Bluetooth setup, device discovery, lobby UI, message routing |
-| `ServerClass.java` | Host: opens `ServerSocket` on port 8888 and waits for client |
-| `ClientClass.java` | Client: connects to host IP via socket |
-| `SendReceive.java` | Background thread for reading/writing raw bytes over the socket |
-| `WifiDirectBroadcastReceiver.java` | WiFi P2P state/peer/connection events |
+| `BtServerClass.java` | Host: opens `BluetoothServerSocket` and waits for client |
+| `BtClientClass.java` | Client: connects to host by Bluetooth MAC address |
+| `BtDiscoveryReceiver.java` | BroadcastReceiver for Bluetooth scan results |
+| `BtConstants.java` | Shared RFCOMM service UUID |
+| `NfcPairingHandler.java` | NFC foreground dispatch — delivers host MAC to client on tap |
+| `SendReceive.java` | Background thread for reading/writing raw bytes over the Bluetooth socket |
 
 ### Game layer
 
