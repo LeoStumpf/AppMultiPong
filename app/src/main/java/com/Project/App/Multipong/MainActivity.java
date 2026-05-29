@@ -157,6 +157,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Covers back-button dismissal from host/join screens — prevents thread leaks
+        if (btServer != null) { btServer.cancel(); btServer = null; }
+        if (btClient != null) { btClient.cancel(); btClient = null; }
+        sendReceive.disconnect();
+    }
+
+    @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         nfcHandler.handleIntent(intent);
@@ -208,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressWarnings("MissingPermission")
     private void startBtServer() {
+        if (mode != Mode.HOST) return; // guard against stale discoverableLauncher callbacks
         btServer = new BtServerClass(bluetoothAdapter, sendReceive,
                 new BtServerClass.ConnectionCallback() {
                     @Override public void onConnected()               { onConnectionEstablished(); }

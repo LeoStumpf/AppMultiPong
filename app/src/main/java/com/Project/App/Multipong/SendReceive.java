@@ -67,20 +67,24 @@ public class SendReceive extends Thread {
             } catch (IOException e) {
                 Log.e(TAG, "SendReceive: read error, stopping", e);
                 running = false;
-                if (onDisconnect != null) {
-                    new Handler(Looper.getMainLooper()).post(onDisconnect);
+                // Capture before any concurrent null-out by disconnect() to avoid NPE
+                Runnable cb = onDisconnect;
+                if (cb != null) {
+                    new Handler(Looper.getMainLooper()).post(cb);
                 }
             }
         }
     }
 
     public void write(final byte[] bytes) {
+        final OutputStream out = outputStream;
+        if (out == null) { Log.w(TAG, "SendReceive: write skipped — no socket"); return; }
         Log.i(TAG, "SendReceive: write " + bytes.length + " bytes");
         new Thread(() -> {
             try {
-                outputStream.write(bytes);
+                out.write(bytes);
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.w(TAG, "SendReceive: write error", e);
             }
         }).start();
     }

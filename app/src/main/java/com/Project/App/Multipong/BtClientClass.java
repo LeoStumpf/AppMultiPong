@@ -17,9 +17,10 @@ public class BtClientClass extends Thread {
     }
 
     private final BluetoothSocket socket;
-    private final SendReceive sendReceive;
+    private final SendReceive     sendReceive;
     private final ConnectionCallback callback;
-    private static final String TAG = "MultiPong";
+    private volatile boolean      cancelled = false;
+    private static final String   TAG = "MultiPong";
 
     @SuppressWarnings("MissingPermission")
     public BtClientClass(BluetoothAdapter adapter, String remoteMac, SendReceive sendReceive,
@@ -52,13 +53,18 @@ public class BtClientClass extends Thread {
             if (sendReceive.getState() == Thread.State.NEW) sendReceive.start();
             main.post(callback::onConnected);
         } catch (IOException e) {
-            Log.e(TAG, "BtClientClass: connection failed", e);
             try { socket.close(); } catch (IOException ignored) {}
-            main.post(() -> callback.onConnectionFailed(e.getMessage()));
+            if (!cancelled) {
+                Log.e(TAG, "BtClientClass: connection failed", e);
+                main.post(() -> callback.onConnectionFailed(e.getMessage()));
+            } else {
+                Log.i(TAG, "BtClientClass: socket closed by cancel, ignoring");
+            }
         }
     }
 
     public void cancel() {
+        cancelled = true;
         try {
             if (socket != null) socket.close();
         } catch (IOException e) {

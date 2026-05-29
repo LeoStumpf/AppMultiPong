@@ -17,9 +17,10 @@ public class BtServerClass extends Thread {
     }
 
     private BluetoothServerSocket serverSocket;
-    private final SendReceive sendReceive;
+    private final SendReceive     sendReceive;
     private final ConnectionCallback callback;
-    private static final String TAG = "MultiPong";
+    private volatile boolean      cancelled = false;
+    private static final String   TAG = "MultiPong";
 
     @SuppressWarnings("MissingPermission")
     public BtServerClass(BluetoothAdapter adapter, SendReceive sendReceive,
@@ -50,14 +51,19 @@ public class BtServerClass extends Thread {
             if (sendReceive.getState() == Thread.State.NEW) sendReceive.start();
             main.post(callback::onConnected);
         } catch (IOException e) {
-            Log.e(TAG, "BtServerClass: accept failed", e);
-            main.post(() -> callback.onConnectionFailed(e.getMessage()));
+            if (!cancelled) {
+                Log.e(TAG, "BtServerClass: accept failed", e);
+                main.post(() -> callback.onConnectionFailed(e.getMessage()));
+            } else {
+                Log.i(TAG, "BtServerClass: socket closed by cancel, ignoring");
+            }
         } finally {
             try { serverSocket.close(); } catch (IOException ignored) {}
         }
     }
 
     public void cancel() {
+        cancelled = true;
         try {
             if (serverSocket != null) serverSocket.close();
         } catch (IOException e) {
