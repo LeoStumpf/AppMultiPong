@@ -389,7 +389,16 @@ public class MainActivity extends AppCompatActivity {
 
         if (msg.startsWith("GameEnd") && msg.length() == 8) {
             boolean leftWon = msg.charAt(7) == 'L';
-            if (GameView.activeInstance != null) GameView.activeInstance.applyGameEnd(leftWon);
+            Log.i(TAG, "GameEnd received: leftWon=" + leftWon
+                    + " activeInstance=" + GameView.activeInstance);
+            if (GameView.activeInstance != null) {
+                GameView.activeInstance.applyGameEnd(leftWon);
+            }
+            return;
+        }
+
+        if (msg.equals("NewGame")) {
+            if (GameView.activeInstance != null) GameView.activeInstance.resetGame();
             return;
         }
         if (msg.length() < 6) return;

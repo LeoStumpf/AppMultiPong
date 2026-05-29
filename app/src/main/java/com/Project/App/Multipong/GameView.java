@@ -432,18 +432,25 @@ public class GameView extends View {
             }
         }
 
-        // Game-over overlay (drawn over everything; tap returns to menu)
+        // Game-over overlay (drawn over everything)
         if (gameOver) {
             paint.setColor(0xCC000000);
             canvas.drawRect(0, 0, w, h, paint);
             paint.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
             paint.setTextAlign(Paint.Align.CENTER);
-            paint.setTextSize(32 * thisDevice.density);
+            float d = thisDevice.density;
+            paint.setTextSize(32 * d);
             paint.setColor(localPlayerWon ? 0xFFFFD700 : 0xFFFF4444);
-            canvas.drawText(localPlayerWon ? "YOU WIN!" : "YOU LOSE", w / 2f, h / 2f - 20 * thisDevice.density, paint);
-            paint.setTextSize(13 * thisDevice.density);
+            canvas.drawText(localPlayerWon ? "YOU WIN!" : "YOU LOSE", w / 2f, h / 2f - 30 * d, paint);
+            paint.setTextSize(13 * d);
             paint.setColor(COLOR_HINT);
-            canvas.drawText("tap to return", w / 2f, h / 2f + 20 * thisDevice.density, paint);
+            if (MainActivity.isHost) {
+                canvas.drawText("tap to play again", w / 2f, h / 2f + 10 * d, paint);
+                canvas.drawText("use  ✕  to quit", w / 2f, h / 2f + 30 * d, paint);
+            } else {
+                canvas.drawText("waiting for host…", w / 2f, h / 2f + 10 * d, paint);
+                canvas.drawText("use  ✕  to quit", w / 2f, h / 2f + 30 * d, paint);
+            }
             paint.setTextAlign(Paint.Align.LEFT);
             invalidate();
             return; // skip physics
@@ -562,7 +569,7 @@ public class GameView extends View {
         MainActivity.sendMessage("ScoreM" + scoreLeft + ">" + scoreRight);
     }
 
-    // Returns true if the game just ended (caller should skip resetBall).
+    // Returns true if the game just ended (caller must call invalidate() and return).
     private boolean checkWin() {
         if (configEndPoints == 0) return false;
         boolean leftWins  = scoreLeft  >= configEndPoints;
@@ -571,11 +578,9 @@ public class GameView extends View {
 
         gameOver = true;
         ballPaused = true;
-        // Host (deviceIndex=1) owns the left score; client owns the right.
         localPlayerWon = (thisDevice.deviceIndex == 1) ? leftWins : rightWins;
-
-        // Tell the peer; payload encodes which side won so both devices draw correctly.
         MainActivity.sendMessage("GameEnd" + (leftWins ? "L" : "R"));
+        invalidate(); // ensure the overlay frame is drawn even if caller returns early
         return true;
     }
 
@@ -583,7 +588,25 @@ public class GameView extends View {
     public void applyGameEnd(boolean leftWon) {
         gameOver = true;
         ballPaused = true;
-        localPlayerWon = (thisDevice.deviceIndex == 1) ? leftWon : !leftWon;
+        if (thisDevice != null) {
+            localPlayerWon = (thisDevice.deviceIndex == 1) ? leftWon : !leftWon;
+        }
+        invalidate(); // drive the next draw() so the overlay appears immediately
+    }
+
+    /** Called from MainActivity when a NewGame message arrives (host-initiated rematch). */
+    public void resetGame() {
+        scoreLeft      = 0;
+        scoreRight     = 0;
+        gameOver       = false;
+        ballPaused     = true;
+        requireLift    = false;
+        frameIndex     = 0;
+        frameTimer     = 0f;
+        lastBallAngle  = 135f;
+        lastFrameNanos = 0;
+        positionBallAndPaddle();
+        invalidate();
     }
 
     @Override
@@ -594,10 +617,14 @@ public class GameView extends View {
             requireLift = false;
         }
 
-        // Tap anywhere on game-over overlay to leave
+        // Game-over overlay interaction
         if (gameOver && action == MotionEvent.ACTION_DOWN) {
-            MainActivity.sendMessage("QuitMsg");
-            GameActivity.finishIfActive();
+            if (MainActivity.isHost) {
+                // Host tap → play again
+                MainActivity.sendMessage("NewGame");
+                resetGame();
+            }
+            // Client just waits; they use ✕ LEAVE to quit
             return true;
         }
 
