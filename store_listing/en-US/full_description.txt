@@ -1,0 +1,24 @@
+Multi Pong is a local two-player arcade game where each player holds their own Android phone. Place the phones side by side and a single play field spans both screens — the asteroid flies from one phone to the other as if the screens are one.
+
+HOW TO PLAY
+Each player controls a satellite paddle on their own phone by sliding their finger. Bounce the asteroid past your opponent's paddle to score. First to the target score wins.
+
+SPACE THEME
+The asteroid tumbles and rotates in flight, its fiery tail always trailing opposite to its direction. Paddles are pixel-art satellites with glowing solar panels. Everything plays out against a deep-space starfield.
+
+CONNECTING
+Two methods — no internet required, everything is local:
+• Bluetooth scan: one player hosts, the other scans and taps the host in the list.
+• NFC tap: tap the two phones back-to-back for instant pairing without scanning.
+
+LOBBY SETTINGS (host configures before the game starts)
+• Ball speed — how fast the asteroid starts
+• Speed gain — how much faster the asteroid gets after each hit
+• Win score — first to how many points wins
+
+CROSS-DEVICE PLAY FIELD
+The game measures both screens and uses the smallest common height so the play field is physically the same size on both phones regardless of resolution or screen size. A dashed alignment guide helps you line up the two phones at the correct height.
+
+No accounts. No ads. No internet. Just you, a friend, and two phones.
+
+Made by SpaceHats.

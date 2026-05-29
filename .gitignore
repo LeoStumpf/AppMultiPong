@@ -19,6 +19,7 @@ local.properties
 # Stale artefacts that should never be committed
 old .git/
 
-# Keystore files
+# Keystore files and secrets — NEVER commit these
 *.jks
 *.keystore
+keystore.properties

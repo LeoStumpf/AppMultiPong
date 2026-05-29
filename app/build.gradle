@@ -1,15 +1,35 @@
 apply plugin: 'com.android.application'
 
+// Read signing credentials from keystore.properties (not committed to git).
+// Copy keystore.properties.example → keystore.properties and fill in your values.
+def keystorePropsFile = rootProject.file('keystore.properties')
+def keystoreProps = new Properties()
+if (keystorePropsFile.exists()) {
+    keystoreProps.load(new FileInputStream(keystorePropsFile))
+}
+
 android {
-    namespace 'com.Project.App.Multipong'
-    compileSdk 34
+    namespace  'com.Project.App.Multipong'
+    compileSdk 35
 
     defaultConfig {
-        applicationId "com.Project.App.Multipong"
-        minSdk 24
-        targetSdk 34
-        versionCode 1
-        versionName "1.0"
+        // Permanent Play Store identifier — must be lowercase, never changed after first publish.
+        applicationId "com.spacehats.multipong"
+        minSdk        24
+        targetSdk     35
+        versionCode   1
+        versionName   "1.0.0"
+    }
+
+    signingConfigs {
+        release {
+            if (keystorePropsFile.exists()) {
+                storeFile     file(keystoreProps['storeFile'])
+                storePassword keystoreProps['storePassword']
+                keyAlias      keystoreProps['keyAlias']
+                keyPassword   keystoreProps['keyPassword']
+            }
+        }
     }
 
     compileOptions {
@@ -18,8 +38,16 @@ android {
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix  "-debug"
+        }
         release {
-            minifyEnabled false
+            minifyEnabled     true
+            shrinkResources   true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
+                          'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 }

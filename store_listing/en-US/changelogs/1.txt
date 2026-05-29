@@ -1,0 +1,3 @@
+Initial release.
+
+Two-player local Pong across two phones over Bluetooth or NFC. Space theme with animated asteroid ball, satellite paddles, and starfield backgrounds.
