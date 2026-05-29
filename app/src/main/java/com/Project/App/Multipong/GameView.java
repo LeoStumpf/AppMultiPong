@@ -316,7 +316,7 @@ public class GameView extends View {
                 && circle.ypos >= paddle.ypos - paddle.halfLength
                 && circle.ypos <= paddle.ypos + paddle.halfLength
                 && circle.velX < 0) {
-            circle.velX = -(Math.abs(circle.velX) + configVelGain * 0.15f);
+            circle.velX = Math.abs(circle.velX) + configVelGain * 0.15f; // bounce right
             circle.velY  = (float) Math.sin(Math.PI * (circle.ypos - paddle.ypos)
                     / (paddle.halfLength * 2)) * circle.maxVelY * 0.3f;
             paddleFlashRemaining = FLASH_DURATION;
@@ -329,7 +329,7 @@ public class GameView extends View {
                 && circle.ypos >= paddle.ypos - paddle.halfLength
                 && circle.ypos <= paddle.ypos + paddle.halfLength
                 && circle.velX > 0) {
-            circle.velX = Math.abs(circle.velX) + configVelGain * 0.15f;
+            circle.velX = -(Math.abs(circle.velX) + configVelGain * 0.15f); // bounce left
             circle.velY  = (float) Math.sin(Math.PI * (circle.ypos - paddle.ypos)
                     / (paddle.halfLength * 2)) * circle.maxVelY * 0.3f;
             paddleFlashRemaining = FLASH_DURATION;
@@ -439,8 +439,8 @@ public class GameView extends View {
             paint.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
             paint.setTextAlign(Paint.Align.CENTER);
             paint.setTextSize(32 * thisDevice.density);
-            paint.setColor(localPlayerWon ? 0xFFFFD700 : 0xFFE8E8E8);
-            canvas.drawText(localPlayerWon ? "YOU WIN" : "OPPONENT WINS", w / 2f, h / 2f - 20 * thisDevice.density, paint);
+            paint.setColor(localPlayerWon ? 0xFFFFD700 : 0xFFFF4444);
+            canvas.drawText(localPlayerWon ? "YOU WIN!" : "YOU LOSE", w / 2f, h / 2f - 20 * thisDevice.density, paint);
             paint.setTextSize(13 * thisDevice.density);
             paint.setColor(COLOR_HINT);
             canvas.drawText("tap to return", w / 2f, h / 2f + 20 * thisDevice.density, paint);
