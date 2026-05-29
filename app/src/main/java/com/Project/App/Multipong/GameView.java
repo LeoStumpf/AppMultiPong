@@ -312,14 +312,14 @@ public class GameView extends View {
             canvas.drawRect(0, h - off, w, h, paint);
         }
 
-        // ── Center dashed dividing line ──────────────────────────────────
+        // ── Horizontal alignment line — helps players line up the two phones ──
         paint.setColor(COLOR_CENTER_LINE);
-        float cx    = w / 2f;
-        float dashH = 20 * thisScreen.density;
-        float gapH  = 12 * thisScreen.density;
-        float lineW = 3  * thisScreen.density;
-        for (float y = off; y < h - off; y += dashH + gapH) {
-            canvas.drawRect(cx - lineW, y, cx + lineW, Math.min(y + dashH, h - off), paint);
+        float cy    = h / 2f;
+        float dashW = 20 * thisScreen.density;
+        float gapW  = 12 * thisScreen.density;
+        float lineH = 3  * thisScreen.density;
+        for (float x = 0; x < w; x += dashW + gapW) {
+            canvas.drawRect(x, cy - lineH, Math.min(x + dashW, w), cy + lineH, paint);
         }
 
         // ── Score display ────────────────────────────────────────────────
