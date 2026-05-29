@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Pressed: cyan fill -->
+    <!-- Pressed: bright blue fill -->
     <item android:state_pressed="true">
         <shape>
-            <solid android:color="#00F5FF" />
+            <solid android:color="@color/space_blue_border" />
+            <stroke android:width="2dp" android:color="@color/space_blue_border" />
         </shape>
     </item>
 
-    <!-- Focused (keyboard/D-pad): dim cyan border -->
+    <!-- Focused (keyboard/D-pad) -->
     <item android:state_focused="true">
         <shape>
-            <solid android:color="#111111" />
-            <stroke android:width="2dp" android:color="#00F5FF" />
+            <solid android:color="@color/space_blue_fill" />
+            <stroke android:width="2dp" android:color="@color/space_blue_border" />
         </shape>
     </item>
 
-    <!-- Default: dark background with white border -->
+    <!-- Default: deep blue fill with bright blue border -->
     <item>
         <shape>
-            <solid android:color="#111111" />
-            <stroke android:width="2dp" android:color="#E8E8E8" />
+            <solid android:color="@color/space_blue_fill" />
+            <stroke android:width="2dp" android:color="@color/space_blue_border" />
         </shape>
     </item>
 

@@ -1,9 +1,14 @@
 package com.Project.App.Multipong;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -42,10 +47,22 @@ public class GameView extends View {
     private Paddle paddle;
     private Paint  paint;
 
-    private boolean ballPaused          = true;
-    private boolean requireLift         = false; // wait for finger-up before allowing next launch
+    private boolean ballPaused           = true;
+    private boolean requireLift          = false; // wait for finger-up before allowing next launch
     private float   paddleFlashRemaining = 0f;
     private long    lastFrameNanos       = 0;
+
+    // Space-theme bitmap assets
+    private Bitmap   bitmapBackground;    // night sky, scaled to screen in onSizeChanged
+    private Bitmap[] bitmapFrames;        // asteroid animation frames
+    private Bitmap   bitmapPaddleRotated; // satellite rotated 90° to fit vertical paddle slot
+
+    // Asteroid animation state
+    private int   frameIndex  = 0;
+    private float frameTimer  = 0f;
+    private float lastBallAngle = 135f;          // persists direction when ball is paused
+    private static final float FRAME_DURATION = 0.14f; // 14/100 s per GIF frame
+    private static final float BASE_TAIL_ANGLE = 45f;  // flame points lower-right in source image
 
     private static final float FLASH_DURATION = 0.083f; // ~5 frames at 60 fps
 
@@ -60,6 +77,28 @@ public class GameView extends View {
         paint = new Paint();
         paint.setAntiAlias(true);
         paint.setFilterBitmap(true);
+
+        bitmapBackground = BitmapFactory.decodeResource(getResources(), R.drawable.background_game);
+
+        // Load all 5 asteroid animation frames
+        int[] frameResIds = {
+            R.drawable.asteroid_f0, R.drawable.asteroid_f1, R.drawable.asteroid_f2,
+            R.drawable.asteroid_f3, R.drawable.asteroid_f4
+        };
+        bitmapFrames = new Bitmap[frameResIds.length];
+        for (int i = 0; i < frameResIds.length; i++) {
+            bitmapFrames[i] = BitmapFactory.decodeResource(getResources(), frameResIds[i]);
+        }
+
+        Bitmap bitmapSatellite = BitmapFactory.decodeResource(getResources(), R.drawable.satellite);
+        if (bitmapSatellite != null) {
+            Matrix m = new Matrix();
+            m.postRotate(90);
+            bitmapPaddleRotated = Bitmap.createBitmap(
+                    bitmapSatellite, 0, 0,
+                    bitmapSatellite.getWidth(), bitmapSatellite.getHeight(), m, true);
+            bitmapSatellite.recycle();
+        }
 
         thisDevice = new Screen();
         thisDevice.role     = MainActivity.isHost ? ROLE_HOST : ROLE_CLIENT;
@@ -144,6 +183,11 @@ public class GameView extends View {
         }
 
         positionBallAndPaddle();
+
+        // Scale background to fill the screen
+        if (bitmapBackground != null) {
+            bitmapBackground = Bitmap.createScaledBitmap(bitmapBackground, w, h, true);
+        }
     }
 
     // Recalculates play-field height for all connected screens.
@@ -300,7 +344,11 @@ public class GameView extends View {
         float off = thisDevice.offset;
 
         // Background
-        canvas.drawColor(COLOR_BACKGROUND);
+        if (bitmapBackground != null) {
+            canvas.drawBitmap(bitmapBackground, 0, 0, null);
+        } else {
+            canvas.drawColor(COLOR_BACKGROUND);
+        }
 
         // Dark letterbox bands on the device with the larger screen
         if (off > 0) {
@@ -320,40 +368,52 @@ public class GameView extends View {
             canvas.drawRect(x, cy - lineH, Math.min(x + dashW, w), cy + lineH, paint);
         }
 
-        // Score
+        // Score labels ("YOU" / "OPPONENT")
         paint.setColor(COLOR_SCORE);
         paint.setStyle(Paint.Style.FILL);
+        paint.setTypeface(Typeface.MONOSPACE);
+        float labelSize = Math.max(11 * thisDevice.density, 1);
+        paint.setTextSize(labelSize);
+        paint.setTextAlign(Paint.Align.CENTER);
+        float labelY = off + labelSize * 1.5f;
+        String leftLabel  = (thisDevice.deviceIndex == 1) ? "YOU" : "OPPONENT";
+        String rightLabel = (thisDevice.deviceIndex == 1) ? "OPPONENT" : "YOU";
+        canvas.drawText(leftLabel,  w * 0.25f, labelY, paint);
+        canvas.drawText(rightLabel, w * 0.75f, labelY, paint);
+
+        // Score numbers
         paint.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
         float scoreTextSize = Math.max(28 * thisDevice.density, 1);
         paint.setTextSize(scoreTextSize);
-        paint.setTextAlign(Paint.Align.CENTER);
-        float scoreY = off + scoreTextSize * 1.2f;
+        float scoreY = labelY + scoreTextSize * 1.1f;
         canvas.drawText(String.valueOf(scoreLeft),  w * 0.25f, scoreY, paint);
         canvas.drawText(String.valueOf(scoreRight), w * 0.75f, scoreY, paint);
         paint.setTextAlign(Paint.Align.LEFT);
 
-        // Ball (draw on the device that currently owns it)
-        if (thisDevice.deviceIndex == circle.ownerIndex) {
-            paint.setColor(COLOR_BALL);
-            canvas.drawCircle(circle.xpos, circle.ypos, circle.pxRadius, paint);
-        }
-
         // Paddle
         if (thisDevice.deviceIndex == 1 || thisDevice.deviceIndex == PLAYER_COUNT) {
-            int paddleColor;
-            if (paddleFlashRemaining > 0) {
-                paddleFlashRemaining -= dt;
-                paddleColor = Color.WHITE;
-            } else {
-                paddleColor = (thisDevice.deviceIndex == 1) ? COLOR_PADDLE_HOST : COLOR_PADDLE_JOIN;
-            }
-            paint.setColor(paddleColor);
-            canvas.drawRect(
+            RectF paddleRect = new RectF(
                     paddle.xpos - paddle.halfWidth,
                     paddle.ypos - paddle.halfLength,
                     paddle.xpos + paddle.halfWidth,
-                    paddle.ypos + paddle.halfLength,
-                    paint);
+                    paddle.ypos + paddle.halfLength);
+            if (bitmapPaddleRotated != null) {
+                // Crop the top/bottom 25% of the rotated satellite so the body+wings fill the paddle
+                int pH = bitmapPaddleRotated.getHeight();
+                int pW = bitmapPaddleRotated.getWidth();
+                Rect srcCrop = new Rect(0, pH / 4, pW, pH * 3 / 4);
+                canvas.drawBitmap(bitmapPaddleRotated, srcCrop, paddleRect, paint);
+            } else {
+                int paddleColor = (thisDevice.deviceIndex == 1) ? COLOR_PADDLE_HOST : COLOR_PADDLE_JOIN;
+                paint.setColor(paddleColor);
+                canvas.drawRect(paddleRect, paint);
+            }
+            // Flash overlay on hit
+            if (paddleFlashRemaining > 0) {
+                paddleFlashRemaining -= dt;
+                paint.setColor(0x88FFFFFF);
+                canvas.drawRect(paddleRect, paint);
+            }
         }
 
         // "TAP TO START" hint
@@ -369,8 +429,38 @@ public class GameView extends View {
         // Physics — only runs on the device that currently owns the ball
         if (thisDevice.deviceIndex == circle.ownerIndex) {
             circle.applyDensity();
-            paint.setColor(COLOR_BALL);
-            canvas.drawCircle(circle.xpos, circle.ypos, circle.pxRadius, paint);
+            float r = circle.pxRadius;
+            float drawR = r * 2f; // visual radius 2× hitbox — bigger image, same collision
+
+            // Advance animation frame
+            frameTimer += dt;
+            if (frameTimer >= FRAME_DURATION) {
+                frameTimer -= FRAME_DURATION;
+                frameIndex = (frameIndex + 1) % bitmapFrames.length;
+            }
+
+            // Rotation: tail (lower-right in source) must oppose the travel direction
+            if (circle.pxVelX != 0 || circle.pxVelY != 0) {
+                lastBallAngle = (float) Math.toDegrees(
+                        Math.atan2(circle.pxVelY, circle.pxVelX));
+            }
+            float rotation = lastBallAngle + 180f - BASE_TAIL_ANGLE;
+
+            Bitmap frame = (bitmapFrames != null && bitmapFrames[frameIndex] != null)
+                    ? bitmapFrames[frameIndex] : null;
+            if (frame != null) {
+                canvas.save();
+                canvas.translate(circle.xpos, circle.ypos);
+                canvas.rotate(rotation);
+                canvas.drawBitmap(frame,
+                        new Rect(0, 0, frame.getWidth(), frame.getHeight()),
+                        new RectF(-drawR, -drawR, drawR, drawR),
+                        paint);
+                canvas.restore();
+            } else {
+                paint.setColor(COLOR_BALL);
+                canvas.drawCircle(circle.xpos, circle.ypos, drawR, paint);
+            }
             checkHitbox();
             circle.move(dtScale);
 

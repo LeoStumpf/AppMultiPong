@@ -8,6 +8,12 @@
     <color name="neon_cyan">#00F5FF</color>
     <color name="neon_magenta">#FF00AA</color>
 
+    <!-- Space / Orbital theme -->
+    <color name="space_orange">#FFB347</color>
+    <color name="space_blue_fill">#0A2A6E</color>
+    <color name="space_blue_border">#2979FF</color>
+    <color name="space_cyan_text">#A0F0FF</color>
+
     <!-- Theme colour aliases -->
     <color name="colorPrimary">@color/neon_cyan</color>
     <color name="colorPrimaryDark">@color/bg_black</color>

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_black"
+    android:background="@drawable/background_game"
     tools:context=".MainActivity">
 
     <!-- Full-screen invisible view used to measure display dimensions before game starts -->
@@ -19,54 +19,125 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- "◆ ORBITAL ARCADE ◆" header -->
     <TextView
-        android:id="@+id/main_title"
+        android:id="@+id/tv_orbital_arcade"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="40dp"
         android:fontFamily="monospace"
         android:letterSpacing="0.15"
-        android:text="MULTIPONG"
-        android:textColor="@color/neon_cyan"
-        android:textSize="40sp"
-        android:textStyle="bold"
+        android:text="◆  SpaceHats  ◆"
+        android:textColor="@color/space_orange"
+        android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/join"
-        style="@style/RetroButton"
-        android:layout_width="240dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/btn_join"
-        app:layout_constraintBottom_toTopOf="@+id/server"
+    <!-- "MULTI" title line -->
+    <TextView
+        android:id="@+id/main_title_multi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="monospace"
+        android:letterSpacing="0.1"
+        android:text="MULTI"
+        android:textColor="@color/pixel_white"
+        android:textSize="56sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_orbital_arcade" />
 
+    <!-- "PONG" title line (orange accent) -->
+    <TextView
+        android:id="@+id/main_title_pong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/space_orange"
+        android:fontFamily="monospace"
+        android:letterSpacing="0.1"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:text="PONG"
+        android:textColor="@color/bg_black"
+        android:textSize="56sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_title_multi" />
+
+    <!-- Subtitle -->
+    <TextView
+        android:id="@+id/tv_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="monospace"
+        android:gravity="center"
+        android:text="bounce the asteroid  ·  break their defense"
+        android:textColor="@color/space_cyan_text"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_title_pong" />
+
+    <!-- HOST GAME button (top) -->
     <Button
         android:id="@+id/server"
         style="@style/RetroButton"
-        android:layout_width="240dp"
+        android:layout_width="0dp"
         android:layout_height="60dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="12dp"
         android:text="@string/btn_host"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/join"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.52" />
+        app:layout_constraintStart_toStartOf="parent" />
 
+    <!-- JOIN GAME button (middle) -->
+    <Button
+        android:id="@+id/join"
+        style="@style/RetroButton"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="12dp"
+        android:text="@string/btn_join"
+        app:layout_constraintBottom_toTopOf="@+id/main_btn_exit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- EXIT button (bottom) -->
     <Button
         android:id="@+id/main_btn_exit"
         style="@style/RetroButton"
-        android:layout_width="240dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="48dp"
         android:text="@string/btn_exit"
-        android:textColor="@color/border_grey"
+        android:textColor="@color/pixel_white"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/server" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Version label bottom-left -->
+    <TextView
+        android:id="@+id/tv_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="monospace"
+        android:text="v1.0"
+        android:textColor="@color/border_grey"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

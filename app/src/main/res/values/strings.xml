@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MultiPong</string>
-    <string name="btn_host">CREATE GAME</string>
+    <string name="btn_host">HOST GAME</string>
     <string name="btn_join">JOIN GAME</string>
     <string name="btn_start_game">START GAME</string>
     <string name="btn_cancel">CANCEL</string>
