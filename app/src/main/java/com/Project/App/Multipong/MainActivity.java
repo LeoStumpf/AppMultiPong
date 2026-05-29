@@ -46,9 +46,10 @@ public class MainActivity extends AppCompatActivity {
     private static final int    REQUEST_PERMISSIONS   = 1;
     private static final String TAG                   = "MultiPong";
 
-    // ── Shared state (read by GameView) ────────────────────────────────────────
-    public static SendReceive sendReceive;
-    public static boolean     isHost = false;
+    // ── Shared state (read by GameView / GameActivity) ────────────────────────
+    public static SendReceive  sendReceive;
+    public static boolean      isHost    = false;
+    public static MainActivity instance; // set in onCreate; used by GameActivity to call returnToMainMenu
 
     // Screen dimensions captured from the main-menu layout (fallback for lobby Sa_Dim).
     // GameView.onSizeChanged() sends a corrected Sa_Dim once the canvas is sized.
@@ -115,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         enableImmersiveFullscreen();
 
+        instance    = this;
         sendReceive = newSendReceive();
         nfcHandler  = new NfcPairingHandler(this, this::onNfcPaired);
 
@@ -336,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
                 + getResources().getDisplayMetrics().density + "<" + (isHost ? 1 : 2));
     }
 
-    private void returnToMainMenu() {
+    void returnToMainMenu() {
         sendReceive.disconnect();
         if (btServer != null) { btServer.cancel(); btServer = null; }
         if (btClient != null) { btClient.cancel(); btClient = null; }

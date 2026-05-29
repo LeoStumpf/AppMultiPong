@@ -303,33 +303,39 @@ public class GameView extends View {
     // ─────────────────────────────────────────────────────────────────────────
 
     private void checkHitbox() {
-        // Bounce off top/bottom play-field walls
-        float topWall    = thisDevice.offset + circle.pxRadius;
-        float bottomWall = thisDevice.height - thisDevice.offset - circle.pxRadius;
-        if (circle.ypos > bottomWall && circle.velY > 0) circle.velY *= -1;
-        if (circle.ypos < topWall    && circle.velY < 0) circle.velY *= -1;
+        // Use visual radius (2× hitbox) so collisions match what the player sees.
+        // The old code used pxRadius (half the drawn size), causing visual mismatch.
+        float r = circle.pxRadius * 2f;
 
-        // Left paddle collision (host device)
+        // Bounce off top/bottom play-field walls — clamp to prevent penetration
+        float topWall    = thisDevice.offset + r;
+        float bottomWall = thisDevice.height - thisDevice.offset - r;
+        if (circle.ypos > bottomWall) { circle.velY = -Math.abs(circle.velY); circle.ypos = bottomWall; }
+        if (circle.ypos < topWall)    { circle.velY =  Math.abs(circle.velY); circle.ypos = topWall;    }
+
+        // Left paddle collision (host device).
+        // Removed the upper-bound X check that caused tunneling when the ball moved
+        // more than paddle.halfWidth in a single frame at high speeds.
         if (thisDevice.deviceIndex == 1
-                && circle.xpos - circle.pxRadius <= paddle.xpos + paddle.halfWidth
-                && circle.xpos - circle.pxRadius >= paddle.xpos - paddle.halfWidth
+                && circle.xpos - r <= paddle.xpos + paddle.halfWidth
                 && circle.ypos >= paddle.ypos - paddle.halfLength
                 && circle.ypos <= paddle.ypos + paddle.halfLength
                 && circle.velX < 0) {
-            circle.velX = Math.abs(circle.velX) + configVelGain * 0.15f; // bounce right
+            circle.velX = Math.abs(circle.velX) + configVelGain * 0.15f;
+            circle.xpos = paddle.xpos + paddle.halfWidth + r; // push clear so it can't re-trigger
             circle.velY  = (float) Math.sin(Math.PI * (circle.ypos - paddle.ypos)
                     / (paddle.halfLength * 2)) * circle.maxVelY * 0.3f;
             paddleFlashRemaining = FLASH_DURATION;
         }
 
-        // Right paddle collision (client device)
+        // Right paddle collision (client device).
         if (thisDevice.deviceIndex == PLAYER_COUNT
-                && circle.xpos + circle.pxRadius >= paddle.xpos - paddle.halfWidth
-                && circle.xpos + circle.pxRadius <= paddle.xpos + paddle.halfWidth
+                && circle.xpos + r >= paddle.xpos - paddle.halfWidth
                 && circle.ypos >= paddle.ypos - paddle.halfLength
                 && circle.ypos <= paddle.ypos + paddle.halfLength
                 && circle.velX > 0) {
-            circle.velX = -(Math.abs(circle.velX) + configVelGain * 0.15f); // bounce left
+            circle.velX = -(Math.abs(circle.velX) + configVelGain * 0.15f);
+            circle.xpos = paddle.xpos - paddle.halfWidth - r; // push clear so it can't re-trigger
             circle.velY  = (float) Math.sin(Math.PI * (circle.ypos - paddle.ypos)
                     / (paddle.halfLength * 2)) * circle.maxVelY * 0.3f;
             paddleFlashRemaining = FLASH_DURATION;
@@ -605,6 +611,9 @@ public class GameView extends View {
         frameTimer     = 0f;
         lastBallAngle  = 135f;
         lastFrameNanos = 0;
+        // Host (device 1) always serves at the start of each new game
+        circle.ownerIndex = 1;
+        circle.direction  = 1; // launch toward client
         positionBallAndPaddle();
         invalidate();
     }

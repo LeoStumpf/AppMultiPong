@@ -92,6 +92,15 @@ public class SendReceive extends Thread {
         write((message + "\n").getBytes());
     }
 
+    /** Write on the calling thread — only for shutdown paths where async is unreliable. */
+    public void writeSync(String message) {
+        OutputStream out = outputStream;
+        if (out == null) return;
+        try { out.write((message + "\n").getBytes()); } catch (Exception e) {
+            Log.w(TAG, "SendReceive: writeSync error", e);
+        }
+    }
+
     public void write(final byte[] bytes) {
         final OutputStream out = outputStream;
         if (out == null) { Log.w(TAG, "SendReceive: write skipped — no socket"); return; }

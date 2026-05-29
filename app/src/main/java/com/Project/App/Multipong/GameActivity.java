@@ -71,7 +71,16 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void leaveGame() {
-        MainActivity.sendMessage("QuitMsg");
+        if (MainActivity.sendReceive != null) {
+            // Null out our own disconnect callback first — we're quitting intentionally,
+            // so we must not show "Connection lost" when the peer closes their end.
+            MainActivity.sendReceive.onDisconnect = null;
+            // Write synchronously so the message is in the OS buffer before we close the socket.
+            MainActivity.sendReceive.writeSync("QuitMsg");
+        }
         finish();
+        if (MainActivity.instance != null) {
+            MainActivity.instance.returnToMainMenu();
+        }
     }
 }
